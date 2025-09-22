@@ -7,6 +7,6 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
 
   ## Objetivo
 
-  # integrantes 
+  ### integrantes 
 
 
