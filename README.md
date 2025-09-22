@@ -6,6 +6,7 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
 - Analilis de la base de datos
 
   ## Objetivo
+  * Realizar una aplicacion sobre la nutricion en los alimnetos*
 
   ### integrantes 
 
