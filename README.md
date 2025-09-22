@@ -13,7 +13,7 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
 *Integrante Uno
 ##### Informacion personal
 - Nombre completo:[Medina Patlan Marisol]
-- Correo eletronico:[]
+- Correo eletronico:[23308060610240@cetis61.edu.mx]
 - Especialidad:[Programacion]
 - Institucion:[CETis61]
 
