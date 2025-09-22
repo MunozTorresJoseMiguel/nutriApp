@@ -9,5 +9,5 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
   * Realizar una aplicacion sobre la nutricion en los alimnetos
 
   ### integrantes 
-
+![mifoto](foto.jpg)
 
