@@ -12,19 +12,19 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
 #### Datos Generales 
 *Integrante Uno
 ##### Informacion personal
-- Nombre completo:[Medina Patlan Marisol]
-- Correo eletronico:[23308060610240@cetis61.edu.mx]
-- Especialidad:[Programacion]
-- Institucion:[CETis61]
+- Nombre completo:  [Medina Patlan Marisol]
+- Correo eletronico: [23308060610240@cetis61.edu.mx]
+- Especialidad:  [Programacion]
+- Institucion: [CETis61]
 - 
 ![mifoto](marisol.jpg)
 
 
 *Integrante dos
 ##### Informacion personal
-- Nombre completo:[Muñoz Torres Jose Miguel]
-- Correo eletronico:[233080610631@cetis61.edu.mx]
-- Especialidad:[Programacion]
-- Institucion:[CETis61]
+- Nombre completo:  [Muñoz Torres Jose Miguel]
+- Correo eletronico:  [233080610631@cetis61.edu.mx]
+- Especialidad:  [Programacion]
+- Institucion:  [CETis61]
 - 
 ![mifoto](foto.jpg)
