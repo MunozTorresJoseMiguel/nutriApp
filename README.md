@@ -16,7 +16,10 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
 - Correo eletronico:[23308060610240@cetis61.edu.mx]
 - Especialidad:[Programacion]
 - Institucion:[CETis61]
+- 
 ![mifoto](marisol.jpg)
+
+
 *Integrante dos
 ##### Informacion personal
 - Nombre completo:[Muñoz Torres Jose Miguel]
