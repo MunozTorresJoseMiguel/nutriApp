@@ -23,4 +23,5 @@ Proyecto final del semestre Agosto-diciembre del equipo los midudev
 - Correo eletronico:[233080610631@cetis61.edu.mx]
 - Especialidad:[Programacion]
 - Institucion:[CETis61]
+- 
 ![mifoto](foto.jpg)
