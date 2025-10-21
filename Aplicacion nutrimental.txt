@@ -1,0 +1,28 @@
+Aplicacion nutrimental 
+Capturar datos
+
+registrarnos
+iniciar sesión 
+Una base de datos 
+Diseño de app
+como vamos a diseñar nuestra base de datos
+(contraseña,usuario)
+y si pido un platillo si es bueno o malo 
+
+
+
+ pagina principal sensicilles  moderno con colores agradables ala vista debe ser bonito en pocas palabras 
+una navbar para poder seleccionar entre diferentes opciones y que tenga traduccion en diferentes idiomas 
+
+Un perfil demografico 
+Debe de tener un expedente del cliente y sus datos personales (nombre,fecha de nacimiento,edad,lugar de naciemto origen,telefono,ocupacion,sexo,peso,complexion) 
+
+
+Debe de tener un apartado de consumo diario de calorias y enfermedades y medicamentos 
+Tambien habitos Tiempo diario de ejercicio 
+
+Tener planes de comida 
+Por ejemplo una semana de verduras con carnes blancas y otra semana con legumnes y carnes de res
+
+
+
