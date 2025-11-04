@@ -10,7 +10,7 @@
 
 <body style="background-color:#fff8e1;">
 
-    <!-- Navbar -->
+    
     <nav class="navbar navbar-expand-lg bg-light shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold text-success" href="{{ url_for('inicio') }}">🥑 NutriApp</a>
@@ -23,12 +23,13 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('imc') }}">IMC</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('recetas') }}">Recetas</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('consejos') }}">Consejos</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{{ url_for('sesion') }}">Inicia sesion</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Contenido dinámico -->
+   
     <main class="container py-5">
         {% block content %}{% endblock %}
     </main>

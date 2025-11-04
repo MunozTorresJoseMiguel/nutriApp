@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio — NutriApp{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center vh-100"
+ style="background: url('../static/img/fondosesion.jpg') center/cover no-repeat;">>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card auth-card mx-auto shadow-sm rounded-4 border-primary">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div>
+                <h5 class="mb-0">Bienvenido de nuevo</h5>
+                <small class="text-muted">Inicia sesión en tu cuenta</small>
+              </div>
+            </div>
+            <form method="POST" action="{{ url_for('validalogin') }}">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email"
+                  value="{{ request.form.get('email', '') }}" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+              </div>
+              <div class="text-center mt-3">
+                <p>No tienes cuenta? <a href="/facebook">Regístrate aquí</a></p>
+                <div class="text-center mt-3 small text-muted">Acceso seguro • Privacidad</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
