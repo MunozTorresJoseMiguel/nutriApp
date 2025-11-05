@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Registro — NutriApp{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center vh-100"
+  style="background: url('../static/img/registro.webp') center/cover no-repeat;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card auth-card mx-auto shadow-sm rounded-4 border-success">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div>
+                <h5 class="mb-0 text-success">Crea tu cuenta</h5>
+                <small class="text-muted">Únete a NutriApp y cuida tu bienestar 🍎</small>
+              </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('registro') }}">
+              
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre completo</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" 
+                  value="{{ request.form.get('nombre', '') }}" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email"
+                  value="{{ request.form.get('email', '') }}" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="edad" class="form-label">Edad</label>
+                <input type="number" class="form-control" id="edad" name="edad" min="10" max="100" 
+                  value="{{ request.form.get('edad', '') }}" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="genero" class="form-label">Género</label>
+                <select class="form-select" id="genero" name="genero" required>
+                  <option value="">Selecciona...</option>
+                  <option value="femenino" {% if request.form.get('genero') == 'femenino' %}selected{% endif %}>Femenino</option>
+                  <option value="masculino" {% if request.form.get('genero') == 'masculino' %}selected{% endif %}>Masculino</option>
+                  <option value="otro" {% if request.form.get('genero') == 'otro' %}selected{% endif %}>Otro</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="objetivo" class="form-label">Objetivo nutricional</label>
+                <select class="form-select" id="objetivo" name="objetivo" required>
+                  <option value="">Selecciona...</option>
+                  <option value="perder_peso" {% if request.form.get('objetivo') == 'perder_peso' %}selected{% endif %}>Perder peso</option>
+                  <option value="mantener_peso" {% if request.form.get('objetivo') == 'mantener_peso' %}selected{% endif %}>Mantener peso</option>
+                  <option value="ganar_masa_muscular" {% if request.form.get('objetivo') == 'ganar_masa_muscular' %}selected{% endif %}>Ganar masa muscular</option>
+                  <option value="mejorar_salud" {% if request.form.get('objetivo') == 'mejorar_salud' %}selected{% endif %}>Mejorar salud general</option>
+                </select>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success">Registrarme</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
