@@ -12,7 +12,7 @@ USUARIOS_REGISTRADOS ={
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('inicio.html')
 
 @app.route('/inicio')
 def inicio():
