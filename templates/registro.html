@@ -62,7 +62,7 @@
                 <div class="col-6 col-md-3">
                   <div class="mb-3">
                     <label for="edad" class="form-label">Edad</label>
-                    <input type="number" class="form-control" id="edad" name="edad" min="10" max="100"
+                    <input type="number" class="form-control" id="edad" name="edad" min="18" max="100"
                       value="{{ request.form.get('edad', '') }}" required>
                   </div>
                 </div>
@@ -72,9 +72,9 @@
                     <label for="genero" class="form-label">Género</label>
                     <select class="form-select" id="genero" name="genero" required>
                       <option value="">Selecciona...</option>
-                      <option value="femenino" {% if request.form.get('genero') == 'femenino' %}selected{% endif %}>Femenino</option>
+                      <option value="femenino" {% if request.form.get('geneross') == 'femenino' %}selected{% endif %}>Femenino</option>
                       <option value="masculino" {% if request.form.get('genero') == 'masculino' %}selected{% endif %}>Masculino</option>
-                      <option value="otro" {% if request.form.get('genero') == 'otro' %}selected{% endif %}>Otro / Prefiero no decir</option>
+                      <option value="otro" {% if request.form.get('genero') == 'otro' %}selected{% endif %}>Prefiero no decir</option>
                     </select>
                   </div>
                 </div>
@@ -151,186 +151,7 @@
                 </div>
               </div>
 
-              <h6 class="text-success mb-2">Preferencias y restricciones</h6>
-
-              <div class="row g-3">
-                
-                <div class="col-md-6">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="card-title">Alergias</h6>
-                      {% set alg_sel = request.form.getlist('allergies') %}
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="alg_mani" name="allergies" value="mani"
-                              {% if 'mani' in alg_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="alg_mani">Maní / cacahuate</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="alg_nueces" name="allergies" value="frutos_secos"
-                              {% if 'frutos_secos' in alg_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="alg_nueces">Frutos secos</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="alg_huevo" name="allergies" value="huevo"
-                              {% if 'huevo' in alg_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="alg_huevo">Huevo</label>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="alg_mariscos" name="allergies" value="mariscos"
-                              {% if 'mariscos' in alg_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="alg_mariscos">Mariscos</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="alg_soya" name="allergies" value="soya"
-                              {% if 'soya' in alg_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="alg_soya">Soya</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="alg_otros" name="allergies" value="otros"
-                              {% if 'otros' in alg_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="alg_otros">Otros</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-floating mt-2">
-                        <input type="text" class="form-control" id="allergies_other" name="allergies_other"
-                          placeholder="Especifica otros (opcional)" value="{{ request.form.get('allergies_other', '') }}">
-                        <label for="allergies_other">Especifica otros (opcional)</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                
-                <div class="col-md-6">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="card-title">Intolerancias</h6>
-                      {% set int_sel = request.form.getlist('intolerances') %}
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="int_lactosa" name="intolerances" value="lactosa"
-                              {% if 'lactosa' in int_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="int_lactosa">Lactosa</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="int_gluten" name="intolerances" value="gluten"
-                              {% if 'gluten' in int_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="int_gluten">Gluten</label>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="int_histamina" name="intolerances" value="histamina"
-                              {% if 'histamina' in int_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="int_histamina">Histamina</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="int_otros" name="intolerances" value="otros"
-                              {% if 'otros' in int_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="int_otros">Otros</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-floating mt-2">
-                        <input type="text" class="form-control" id="intolerances_other" name="intolerances_other"
-                          placeholder="Especifica otros (opcional)" value="{{ request.form.get('intolerances_other', '') }}">
-                        <label for="intolerances_other">Especifica otros (opcional)</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                
-                <div class="col-md-6">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="card-title">Dietas específicas</h6>
-                      {% set diet_sel = request.form.getlist('diets') %}
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="diet_vegana" name="diets" value="vegana"
-                              {% if 'vegana' in diet_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="diet_vegana">Vegana</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="diet_vegetariana" name="diets" value="vegetariana"
-                              {% if 'vegetariana' in diet_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="diet_vegetariana">Vegetariana</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="diet_keto" name="diets" value="keto"
-                              {% if 'keto' in diet_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="diet_keto">Keto</label>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="diet_mediterranea" name="diets" value="mediterranea"
-                              {% if 'mediterranea' in diet_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="diet_mediterranea">Mediterránea</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="diet_paleo" name="diets" value="paleo"
-                              {% if 'paleo' in diet_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="diet_paleo">Paleo</label>
-                          </div>
-                          <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="diet_otra" name="diets" value="otra"
-                              {% if 'otra' in diet_sel %}checked{% endif %}>
-                            <label class="form-check-label" for="diet_otra">Otra</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-floating mt-2">
-                        <input type="text" class="form-control" id="diet_other" name="diet_other"
-                          placeholder="Especifica otra (opcional)" value="{{ request.form.get('diet_other', '') }}">
-                        <label for="diet_other">Especifica otra (opcional)</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="card-title">Alimentos que no te gustan</h6>
-                      <div class="form-floating">
-                        <textarea class="form-control" id="dislikes" name="dislikes" placeholder="Ej. betabel, hígado, aceitunas..."
-                          style="height: 120px">{{ request.form.get('dislikes', '') }}</textarea>
-                        <label for="dislikes">Lista libre (separados por coma)</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               
-              <div class="mt-4">
-                <label class="form-label d-block">Nivel de experiencia en cocina</label>
-                {% set cook = request.form.get('cooking_level') %}
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="cooking_level" id="cook_beginner" value="principiante"
-                    {% if cook == 'principiante' %}checked{% endif %} required>
-                  <label class="form-check-label" for="cook_beginner">Principiante</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="cooking_level" id="cook_enthusiast" value="aficionado"
-                    {% if cook == 'aficionado' %}checked{% endif %} required>
-                  <label class="form-check-label" for="cook_enthusiast">Aficionado</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="cooking_level" id="cook_advanced" value="avanzado"
-                    {% if cook == 'avanzado' %}checked{% endif %} required>
-                  <label class="form-check-label" for="cook_advanced">Avanzado</label>
-                </div>
-              </div>
 
               <hr class="my-4">
 

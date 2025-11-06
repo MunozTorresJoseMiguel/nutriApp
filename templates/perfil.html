@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Registro — NutriApp{% endblock %}
+
+{% block content %}
+<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
+        <div class="card shadow-sm rounded-4 border-success bg-white bg-opacity-85">
+          <div class="card-body p-3 p-sm-4 p-md-5">
+            <div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3">
+              <div>
+                <h5 class="mb-0 text-success">Crea tu cuenta</h5>
+                <small class="text-muted">Únete a NutriApp y cuida tu bienestar 🍎</small>
+              </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('registro') }}">
+              <hr class="my-4">
+              <h6 class="text-success">Preferencias y restricciones</h6>
+              <div class="mb-2">
+                <label class="form-label mb-1">Alergias</label>
+                {% set alergias = request.form.getlist('alergias') %}
+                <div class="row g-2">
+                  {% for val, label in [
+                    ('mani','Maní/Cacahuate'), ('mariscos','Mariscos'),
+                    ('huevo','Huevo'), ('soya','Soya'), ('trigo','Trigo')
+                  ] %}
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="alg_{{ val }}" name="alergias" value="{{ val }}"
+                             {% if val in alergias %}checked{% endif %}>
+                      <label class="form-check-label" for="alg_{{ val }}">{{ label }}</label>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  <div class="col-12 col-md-6">
+                    <input type="text" class="form-control" id="alergia_otra" name="alergia_otra"
+                           placeholder="(Opcional) Otra alergia"
+                           value="{{ request.form.get('alergia_otra', '') }}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label mb-1">Intolerancias</label>
+                {% set intolerancias = request.form.getlist('intolerancias') %}
+                <div class="row g-2">
+                  {% for val, label in [
+                    ('lactosa','Lactosa'), ('gluten','Gluten'),
+                    ('fructosa','Fructosa'), ('histamina','Histamina')
+                  ] %}
+                  <div class="col-6 col-md-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="int_{{ val }}" name="intolerancias" value="{{ val }}"
+                             {% if val in intolerancias %}checked{% endif %}>
+                      <label class="form-check-label" for="int_{{ val }}">{{ label }}</label>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label mb-1">Tipo de dieta</label>
+                {% set dietas = request.form.getlist('dietas') %}
+                <div class="row g-2">
+                  {% for val, label in [
+                    ('vegana','Vegana'), ('vegetariana','Vegetariana'),
+                    ('keto','Keto'), ('mediterranea','Mediterránea'),
+                    ('omnivora','Omnívora')
+                  ] %}
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="diet_{{ val }}" name="dietas" value="{{ val }}"
+                             {% if val in dietas %}checked{% endif %}>
+                      <label class="form-check-label" for="diet_{{ val }}">{{ label }}</label>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="no_gustan" class="form-label">Alimentos que no te gustan</label>
+                <textarea class="form-control" id="no_gustan" name="no_gustan" rows="2"
+                          placeholder="Ej. cilantro, aceitunas, picante..."
+                >{{ request.form.get('no_gustan', '') }}</textarea>
+              </div>
+
+              <hr class="my-4">
+
+              {# --- NIVEL DE EXPERIENCIA EN COCINA --- #}
+              <h6 class="text-success">Experiencia en cocina</h6>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <select class="form-select" id="experiencia_cocina" name="experiencia_cocina" required>
+                    <option value="">Selecciona...</option>
+                    <option value="principiante" {% if request.form.get('experiencia_cocina') == 'principiante' %}selected{% endif %}>Principiante</option>
+                    <option value="intermedio" {% if request.form.get('experiencia_cocina') == 'intermedio' %}selected{% endif %}>Intermedio</option>
+                    <option value="avanzado" {% if request.form.get('experiencia_cocina') == 'avanzado' %}selected{% endif %}>Avanzado</option>
+                    <option value="chef_aficionado" {% if request.form.get('experiencia_cocina') == 'chef_aficionado' %}selected{% endif %}>Chef aficionado</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <input type="text" class="form-control" id="equipo_disponible" name="equipo_disponible"
+                         placeholder="(Opcional) Equipo disponible: horno, airfryer, licuadora..."
+                         value="{{ request.form.get('equipo_disponible', '') }}">
+                </div>
+              </div>
+
+              <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-success btn-lg">Registrarme</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <p class="text-center text-white-50 small mt-3 px-2">Al continuar aceptas nuestros Términos y Política de Privacidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

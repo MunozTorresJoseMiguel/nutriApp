@@ -14,6 +14,10 @@ USUARIOS_REGISTRADOS ={
 def index():
     return render_template('inicio.html')
 
+@app.route("/perfil")
+def perfil():
+    return render_template("perfil.html")
+
 @app.route('/inicio')
 def inicio():
     return render_template('inicio.html')
