@@ -30,6 +30,13 @@ def recetas():
 def consejos():
     return render_template('consejos.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Has cerrado sesión exitosamente.', 'success')
+    return redirect(url_for('index'))
+
+
 @app.route("/sesion")
 def sesion():
     return render_template("index.html")
