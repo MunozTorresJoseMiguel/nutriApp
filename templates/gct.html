@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Calculadora GCT{% endblock %}
+{% block content %}
+
+<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
+  style="background:url('../static/img/avocado.jpg') center/cover no-repeat;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
+        <div class="card shadow-sm rounded-4 border-success bg-white bg-opacity-85">
+          <div class="card-body p-4 p-md-5">
+
+            <h5 class="text-success mb-0">Calculadora de Gasto Calórico Total</h5>
+            <small class="text-muted">Conoce cuántas calorías necesitas al día ⚡</small>
+            <hr class="my-4">
+
+            <form method="POST" class="row g-3">
+              {% for id, label, type, placeholder in [
+                ('peso','Peso (kg)','number','Ej. 70.5'),
+                ('altura','Altura (cm)','number','Ej. 175'),
+                ('edad','Edad (años)','number','Ej. 25')
+              ] %}
+              <div class="col-12 col-md-6">
+                <label for="{{ id }}" class="form-label">{{ label }}</label>
+                <input type="{{ type }}" step="0.1" class="form-control" id="{{ id }}" name="{{ id }}"
+                       placeholder="{{ placeholder }}" required>
+              </div>
+              {% endfor %}
+
+              <div class="col-12 col-md-6">
+                <label for="sexo" class="form-label">Sexo</label>
+                <select class="form-select" id="sexo" name="sexo" required>
+                  <option value="">Selecciona...</option>
+                  <option value="masculino">Masculino</option>
+                  <option value="femenino">Femenino</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label for="actividad" class="form-label">Nivel de actividad física</label>
+                <select class="form-select" id="actividad" name="actividad" required>
+                  <option value="">Selecciona tu nivel</option>
+                  <option value="1.2">Sedentario (poco o nada de ejercicio)</option>
+                  <option value="1.375">Ligero (ejercicio 1–3 días/semana)</option>
+                  <option value="1.55">Moderado (ejercicio 3–5 días/semana)</option>
+                  <option value="1.725">Activo (ejercicio 6–7 días/semana)</option>
+                  <option value="1.9">Muy activo (entrenamiento intenso diario)</option>
+                </select>
+              </div>
+
+              <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-success btn-lg">Calcular GCT</button>
+              </div>
+            </form>
+
+            {% if gct %}
+            <hr class="my-4">
+            <div class="alert alert-light border-success text-center rounded-4">
+              <h5 class="text-success">Tu GCT es: <strong>{{ gct }} kcal/día</strong></h5>
+              <p class="mb-0">Calorías aproximadas que necesitas para mantener tu peso actual.</p>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+        <p class="text-center text-white-50 small mt-3">NutriApp 🍏 - Calcula tu energía diaria</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

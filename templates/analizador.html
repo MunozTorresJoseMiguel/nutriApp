@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Analizador de Recetas{% endblock %}
+{% block content %}
+
+<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
+  style="background:url('../static/img/fondosesion.jpg') center/cover no-repeat;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
+        <div class="card shadow-sm rounded-4 border-success bg-white bg-opacity-85">
+          <div class="card-body p-4 p-md-5">
+
+            <h5 class="text-success mb-0">Analizador de Recetas o Platos</h5>
+            <small class="text-muted">Análisis nutricional básico de tu receta 🍲</small>
+            <hr class="my-4">
+
+            <form method="POST">
+              <div class="mb-3">
+                <label for="receta" class="form-label">Escribe los ingredientes (separados por comas)</label>
+                <textarea class="form-control" id="receta" name="receta" rows="3"
+                  placeholder="Ejemplo: pollo, arroz, aguacate" required></textarea>
+              </div>
+
+              <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-success btn-lg">Analizar Receta</button>
+              </div>
+            </form>
+
+            {% if resultado %}
+            <hr class="my-4">
+            <div class="alert alert-light border-success rounded-4 text-center">
+              {% if resultado is string %}
+                <p class="text-danger mb-0">{{ resultado }}</p>
+              {% else %}
+                <h5 class="text-success">Resultados para: {{ resultado.ingredientes }}</h5>
+                <ul class="list-unstyled mb-2">
+                  <li><strong>Calorías:</strong> {{ resultado.calorias }} kcal</li>
+                  <li><strong>Proteínas:</strong> {{ resultado.proteinas }} g</li>
+                  <li><strong>Carbohidratos:</strong> {{ resultado.carbohidratos }} g</li>
+                  <li><strong>Grasas:</strong> {{ resultado.grasas }} g</li>
+                </ul>
+                <p class="text-muted small mb-0">Valores aproximados para 100 g de cada ingrediente.</p>
+              {% endif %}
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+        <p class="text-center text-white-50 small mt-3">NutriApp 🍏 - Analiza tus comidas fácilmente</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Calculadora de Macronutrientes{% endblock %}
+{% block content %}
+
+<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
+  style="background:url('../static/img/fondosesion.jpg') center/cover no-repeat;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
+        <div class="card shadow-sm rounded-4 border-success bg-white bg-opacity-85">
+          <div class="card-body p-4 p-md-5">
+
+            <h5 class="text-success mb-0">Calculadora de Macronutrientes</h5>
+            <small class="text-muted">Equilibra tu consumo de proteínas, grasas y carbohidratos 🍽️</small>
+            <hr class="my-4">
+
+            <form method="POST" class="row g-3">
+              <div class="col-12 col-md-6">
+                <label for="calorias" class="form-label">Calorías diarias (kcal)</label>
+                <input type="number" step="0.1" class="form-control" id="calorias" name="calorias"
+                       placeholder="Ej. 2200" required>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="objetivo" class="form-label">Objetivo</label>
+                <select class="form-select" id="objetivo" name="objetivo" required>
+                  <option value="">Selecciona...</option>
+                  <option value="mantener">Mantener peso</option>
+                  <option value="perder">Perder grasa</option>
+                  <option value="ganar">Ganar masa muscular</option>
+                </select>
+              </div>
+
+              <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-success btn-lg">Calcular Macronutrientes</button>
+              </div>
+            </form>
+
+            {% if macros %}
+            <hr class="my-4">
+            <div class="alert alert-light border-success rounded-4 text-center">
+              {% if macros is string %}
+                <p class="text-danger">{{ macros }}</p>
+              {% else %}
+                <h5 class="text-success">Distribución recomendada:</h5>
+                <ul class="list-unstyled mb-2">
+                  <li><strong>Calorías totales:</strong> {{ macros.calorias_totales }} kcal</li>
+                  <li><strong>Proteínas:</strong> {{ macros.proteinas }} g (25%)</li>
+                  <li><strong>Carbohidratos:</strong> {{ macros.carbohidratos }} g (50%)</li>
+                  <li><strong>Grasas:</strong> {{ macros.grasas }} g (25%)</li>
+                </ul>
+                <p class="text-muted small mb-0">Los valores son estimados y pueden variar según tu metabolismo y actividad física.</p>
+              {% endif %}
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+        <p class="text-center text-white-50 small mt-3">NutriApp 🍏 - Calcula tu balance nutricional</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
