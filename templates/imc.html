@@ -2,8 +2,8 @@
 {% block title %}Calculadora IMC{% endblock %}
 {% block content %}
 
-<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
-  style="background: url('../static/img/avocado.jpg') center/cover no-repeat;">
+<div class="d-flex align-items-center justify-content-center min-vh-100 w-100"
+  style="background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url('../static/img/pez.avif') center center /cover no-repeat fixed;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
@@ -23,13 +23,13 @@
               <div class="row g-3">
                 <div class="col-12 col-md-6">
                   <label for="peso" class="form-label">Peso (kg)</label>
-                  <input type="number" step="0.1" class="form-control" id="peso" name="peso"
-                         placeholder="Ej. 68.5" required>
+                  <input type="number" step="0.1" class="form-control" id="peso" name="peso" placeholder="Ej. 68.5"
+                    required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="altura" class="form-label">Altura (cm)</label>
-                  <input type="number" step="0.1" class="form-control" id="altura" name="altura"
-                         placeholder="Ej. 170" required>
+                  <input type="number" step="0.1" class="form-control" id="altura" name="altura" placeholder="Ej. 170"
+                    required>
                 </div>
               </div>
 
@@ -40,11 +40,11 @@
 
             {% if resultado %}
             <h5 class="my-4">
-            <div class="alert alert-light border-success text-center rounded-4">
-              <h6 class="mb-1 text-success">Tu IMC es: <strong>{{ resultado }}</strong></h6>
-              <p class="mb-0"><strong>Clasificación:</strong> {{ categoria }}</p>
-            </div>
-            {% endif %}
+              <div class="alert alert-light border-success text-center rounded-4">
+                <h6 class="mb-1 text-success">Tu IMC es: <strong>{{ resultado }}</strong></h6>
+                <p class="mb-0"><strong>Clasificación:</strong> {{ categoria }}</p>
+              </div>
+              {% endif %}
 
           </div>
         </div>
@@ -54,6 +54,6 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 {% endblock %}

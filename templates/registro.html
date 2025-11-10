@@ -3,8 +3,8 @@
 {% block title %}Registro — NutriApp{% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center vh-100"
-  style="background: url('../static/img/pez.avif') center/cover no-repeat;">
+<div class="d-flex align-items-center justify-content-center min-vh-100 w-100"
+  style="background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url('../static/img/pez.avif') center center /cover no-repeat fixed;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-8 col-lg-7">
@@ -18,7 +18,7 @@
             </div>
 
             <form method="POST" action="{{ url_for('registro') }}">
-             
+
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre(s)</label>
                 <input type="text" class="form-control" id="nombre" name="nombre"
@@ -48,14 +48,15 @@
                 <div class="col-md-6">
                   <div class="mb-3">
                     <label for="confirm_password" class="form-label">Confirmar contraseña</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="6" required>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                      minlength="6" required>
                   </div>
                 </div>
               </div>
 
               <hr class="my-4">
 
-            
+
               <h6 class="text-success mb-3">Perfil detallado</h6>
 
               <div class="row g-3">
@@ -72,9 +73,12 @@
                     <label for="genero" class="form-label">Género</label>
                     <select class="form-select" id="genero" name="genero" required>
                       <option value="">Selecciona...</option>
-                      <option value="femenino" {% if request.form.get('geneross') == 'femenino' %}selected{% endif %}>Femenino</option>
-                      <option value="masculino" {% if request.form.get('genero') == 'masculino' %}selected{% endif %}>Masculino</option>
-                      <option value="otro" {% if request.form.get('genero') == 'otro' %}selected{% endif %}>Prefiero no decir</option>
+                      <option value="femenino" {% if request.form.get('geneross')=='femenino' %}selected{% endif %}>
+                        Femenino</option>
+                      <option value="masculino" {% if request.form.get('genero')=='masculino' %}selected{% endif %}>
+                        Masculino</option>
+                      <option value="otro" {% if request.form.get('genero')=='otro' %}selected{% endif %}>Prefiero no
+                        decir</option>
                     </select>
                   </div>
                 </div>
@@ -82,8 +86,8 @@
                 <div class="col-6 col-md-3">
                   <div class="mb-3">
                     <label for="altura_cm" class="form-label">Altura (cm)</label>
-                    <input type="number" class="form-control" id="altura_cm" name="altura_cm" min="50" max="250" step="1"
-                      value="{{ request.form.get('altura_cm', '') }}" required>
+                    <input type="number" class="form-control" id="altura_cm" name="altura_cm" min="50" max="250"
+                      step="1" value="{{ request.form.get('altura_cm', '') }}" required>
                   </div>
                 </div>
 
@@ -100,23 +104,32 @@
                 <label for="actividad" class="form-label">Nivel de actividad física</label>
                 <select class="form-select" id="actividad" name="actividad" required>
                   <option value="">Selecciona...</option>
-                  <option value="sedentario"   {% if request.form.get('actividad') == 'sedentario' %}selected{% endif %}>Sedentario (poco o nada)</option>
-                  <option value="ligero"       {% if request.form.get('actividad') == 'ligero' %}selected{% endif %}>Ligero (1–3 días/sem)</option>
-                  <option value="moderado"     {% if request.form.get('actividad') == 'moderado' %}selected{% endif %}>Moderado (3–5 días/sem)</option>
-                  <option value="activo"       {% if request.form.get('actividad') == 'activo' %}selected{% endif %}>Activo (6–7 días/sem)</option>
-                  <option value="muy_activo"   {% if request.form.get('actividad') == 'muy_activo' %}selected{% endif %}>Muy activo / deportista</option>
+                  <option value="sedentario" {% if request.form.get('actividad')=='sedentario' %}selected{% endif %}>
+                    Sedentario (poco o nada)</option>
+                  <option value="ligero" {% if request.form.get('actividad')=='ligero' %}selected{% endif %}>Ligero (1–3
+                    días/sem)</option>
+                  <option value="moderado" {% if request.form.get('actividad')=='moderado' %}selected{% endif %}>
+                    Moderado (3–5 días/sem)</option>
+                  <option value="activo" {% if request.form.get('actividad')=='activo' %}selected{% endif %}>Activo (6–7
+                    días/sem)</option>
+                  <option value="muy_activo" {% if request.form.get('actividad')=='muy_activo' %}selected{% endif %}>Muy
+                    activo / deportista</option>
                 </select>
               </div>
 
-              
+
               <div class="mb-3">
                 <label for="objetivo" class="form-label">Objetivo nutricional</label>
                 <select class="form-select" id="objetivo" name="objetivo" required>
                   <option value="">Selecciona...</option>
-                  <option value="perder_peso"         {% if request.form.get('objetivo') == 'perder_peso' %}selected{% endif %}>Perder peso</option>
-                  <option value="mantener_peso"       {% if request.form.get('objetivo') == 'mantener_peso' %}selected{% endif %}>Mantener peso</option>
-                  <option value="ganar_masa_muscular" {% if request.form.get('objetivo') == 'ganar_masa_muscular' %}selected{% endif %}>Ganar masa muscular</option>
-                  <option value="mejorar_salud"       {% if request.form.get('objetivo') == 'mejorar_salud' %}selected{% endif %}>Mejorar salud general</option>
+                  <option value="perder_peso" {% if request.form.get('objetivo')=='perder_peso' %}selected{% endif %}>
+                    Perder peso</option>
+                  <option value="mantener_peso" {% if request.form.get('objetivo')=='mantener_peso' %}selected{% endif
+                    %}>Mantener peso</option>
+                  <option value="ganar_masa_muscular" {% if request.form.get('objetivo')=='ganar_masa_muscular'
+                    %}selected{% endif %}>Ganar masa muscular</option>
+                  <option value="mejorar_salud" {% if request.form.get('objetivo')=='mejorar_salud' %}selected{% endif
+                    %}>Mejorar salud general</option>
                 </select>
               </div>
 
@@ -126,20 +139,20 @@
                   {% set goals_sel = request.form.getlist('goals') %}
                   <div class="col-sm-6">
                     <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="goal_digestion" name="goals" value="mejorar_digestion"
-                        {% if 'mejorar_digestion' in goals_sel %}checked{% endif %}>
+                      <input class="form-check-input" type="checkbox" id="goal_digestion" name="goals"
+                        value="mejorar_digestion" {% if 'mejorar_digestion' in goals_sel %}checked{% endif %}>
                       <label class="form-check-label" for="goal_digestion">Mejorar digestión</label>
                     </div>
                     <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="goal_diabetes" name="goals" value="control_diabetes"
-                        {% if 'control_diabetes' in goals_sel %}checked{% endif %}>
+                      <input class="form-check-input" type="checkbox" id="goal_diabetes" name="goals"
+                        value="control_diabetes" {% if 'control_diabetes' in goals_sel %}checked{% endif %}>
                       <label class="form-check-label" for="goal_diabetes">Controlar diabetes</label>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="goal_hta" name="goals" value="control_hipertension"
-                        {% if 'control_hipertension' in goals_sel %}checked{% endif %}>
+                      <input class="form-check-input" type="checkbox" id="goal_hta" name="goals"
+                        value="control_hipertension" {% if 'control_hipertension' in goals_sel %}checked{% endif %}>
                       <label class="form-check-label" for="goal_hta">Controlar hipertensión</label>
                     </div>
                     <div class="form-floating">
@@ -151,7 +164,7 @@
                 </div>
               </div>
 
-              
+
 
               <hr class="my-4">
 

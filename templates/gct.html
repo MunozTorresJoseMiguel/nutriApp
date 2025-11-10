@@ -2,8 +2,8 @@
 {% block title %}Calculadora GCT{% endblock %}
 {% block content %}
 
-<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
-  style="background:url('../static/img/avocado.jpg') center/cover no-repeat;">
+<div class="d-flex align-items-center justify-content-center min-vh-100 w-100"
+  style="background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url('../static/img/pez.avif') center center /cover no-repeat fixed;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
@@ -16,14 +16,14 @@
 
             <form method="POST" class="row g-3">
               {% for id, label, type, placeholder in [
-                ('peso','Peso (kg)','number','Ej. 70.5'),
-                ('altura','Altura (cm)','number','Ej. 175'),
-                ('edad','Edad (años)','number','Ej. 25')
+              ('peso','Peso (kg)','number','Ej. 70.5'),
+              ('altura','Altura (cm)','number','Ej. 175'),
+              ('edad','Edad (años)','number','Ej. 25')
               ] %}
               <div class="col-12 col-md-6">
                 <label for="{{ id }}" class="form-label">{{ label }}</label>
                 <input type="{{ type }}" step="0.1" class="form-control" id="{{ id }}" name="{{ id }}"
-                       placeholder="{{ placeholder }}" required>
+                  placeholder="{{ placeholder }}" required>
               </div>
               {% endfor %}
 
@@ -67,6 +67,6 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 {% endblock %}

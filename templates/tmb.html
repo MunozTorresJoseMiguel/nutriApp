@@ -2,8 +2,8 @@
 {% block title %}Calculadora TMB{% endblock %}
 {% block content %}
 
-<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
-  style="background: url('../static/img/avocado.jpg') center/cover no-repeat;">
+<div class="d-flex align-items-center justify-content-center min-vh-100 w-100"
+  style="background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url('../static/img/pez.avif') center center /cover no-repeat fixed;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
@@ -23,18 +23,17 @@
               <div class="row g-3">
                 <div class="col-12 col-md-6">
                   <label for="peso" class="form-label">Peso (kg)</label>
-                  <input type="number" step="0.1" class="form-control" id="peso" name="peso"
-                         placeholder="Ej. 70.5" required>
+                  <input type="number" step="0.1" class="form-control" id="peso" name="peso" placeholder="Ej. 70.5"
+                    required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="altura" class="form-label">Altura (cm)</label>
-                  <input type="number" step="0.1" class="form-control" id="altura" name="altura"
-                         placeholder="Ej. 175" required>
+                  <input type="number" step="0.1" class="form-control" id="altura" name="altura" placeholder="Ej. 175"
+                    required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="edad" class="form-label">Edad (años)</label>
-                  <input type="number" class="form-control" id="edad" name="edad"
-                         placeholder="Ej. 25" required>
+                  <input type="number" class="form-control" id="edad" name="edad" placeholder="Ej. 25" required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="sexo" class="form-label">Sexo</label>
@@ -55,7 +54,8 @@
             <hr class="my-4">
             <div class="alert alert-light border-success text-center rounded-4">
               <h5 class="mb-1 text-success">Tu TMB es: <strong>{{ resultado }} kcal/día</strong></h5>
-              <p class="mb-0">Este es el número estimado de calorías que tu cuerpo necesita para funcionar en reposo.</p>
+              <p class="mb-0">Este es el número estimado de calorías que tu cuerpo necesita para funcionar en reposo.
+              </p>
             </div>
             {% endif %}
           </div>
@@ -66,6 +66,6 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 {% endblock %}

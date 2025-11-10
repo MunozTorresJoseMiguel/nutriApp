@@ -2,8 +2,8 @@
 {% block title %}Calculadora de Macronutrientes{% endblock %}
 {% block content %}
 
-<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
-  style="background:url('../static/img/avocado.jpg') center/cover no-repeat;">
+<div class="d-flex align-items-center justify-content-center min-vh-100 w-100"
+  style="background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url('../static/img/pez.avif') center center /cover no-repeat fixed;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
@@ -18,7 +18,7 @@
               <div class="col-12 col-md-6">
                 <label for="calorias" class="form-label">Calorías diarias (kcal)</label>
                 <input type="number" step="0.1" class="form-control" id="calorias" name="calorias"
-                       placeholder="Ej. 2200" required>
+                  placeholder="Ej. 2200" required>
               </div>
 
               <div class="col-12 col-md-6">
@@ -40,16 +40,17 @@
             <hr class="my-4">
             <div class="alert alert-light border-success rounded-4 text-center">
               {% if macros is string %}
-                <p class="text-danger">{{ macros }}</p>
+              <p class="text-danger">{{ macros }}</p>
               {% else %}
-                <h5 class="text-success">Distribución recomendada:</h5>
-                <ul class="list-unstyled mb-2">
-                  <li><strong>Calorías totales:</strong> {{ macros.calorias_totales }} kcal</li>
-                  <li><strong>Proteínas:</strong> {{ macros.proteinas }} g (25%)</li>
-                  <li><strong>Carbohidratos:</strong> {{ macros.carbohidratos }} g (50%)</li>
-                  <li><strong>Grasas:</strong> {{ macros.grasas }} g (25%)</li>
-                </ul>
-                <p class="text-muted small mb-0">Los valores son estimados y pueden variar según tu metabolismo y actividad física.</p>
+              <h5 class="text-success">Distribución recomendada:</h5>
+              <ul class="list-unstyled mb-2">
+                <li><strong>Calorías totales:</strong> {{ macros.calorias_totales }} kcal</li>
+                <li><strong>Proteínas:</strong> {{ macros.proteinas }} g (25%)</li>
+                <li><strong>Carbohidratos:</strong> {{ macros.carbohidratos }} g (50%)</li>
+                <li><strong>Grasas:</strong> {{ macros.grasas }} g (25%)</li>
+              </ul>
+              <p class="text-muted small mb-0">Los valores son estimados y pueden variar según tu metabolismo y
+                actividad física.</p>
               {% endif %}
             </div>
             {% endif %}
@@ -60,6 +61,6 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 {% endblock %}
