@@ -74,9 +74,85 @@ def validalogin():
     
     return render_template('sesion.html')
 
+
+
+from flask import request, render_template, redirect, url_for, flash, session
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
+    if request.method == 'POST':
+        alergias          = request.form.getlist('alergias')
+        alergia_otra      = request.form.get('alergia_otra', '').strip()
+        intolerancias     = request.form.getlist('intolerancias')
+        dietas            = request.form.getlist('dietas')
+        no_gustan         = request.form.get('no_gustan', '').strip()
+        experiencia       = request.form.get('experiencia_cocina', '').strip()
+        equipo_disponible = request.form.get('equipo_disponible', '').strip()
+
+        
+
+       
+        if not experiencia:
+            flash('Selecciona tu nivel de experiencia en cocina.', 'danger')
+            return render_template(
+                'registro.html',
+                alergias=alergias, alergia_otra=alergia_otra,
+                intolerancias=intolerancias, dietas=dietas,
+                no_gustan=no_gustan, experiencia_cocina=experiencia,
+                equipo_disponible=equipo_disponible
+            )
+
+        if len(alergia_otra) > 80:
+            flash('El campo "Otra alergia" es demasiado largo (máx. 80).', 'danger')
+            return render_template(
+                'registro.html',
+                alergias=alergias, alergia_otra=alergia_otra,
+                intolerancias=intolerancias, dietas=dietas,
+                no_gustan=no_gustan, experiencia_cocina=experiencia,
+                equipo_disponible=equipo_disponible
+            )
+
+        if len(no_gustan) > 500:
+            flash('El campo "Alimentos que no te gustan" es demasiado largo (máx. 500).', 'danger')
+            return render_template(
+                'registro.html',
+                alergias=alergias, alergia_otra=alergia_otra,
+                intolerancias=intolerancias, dietas=dietas,
+                no_gustan=no_gustan, experiencia_cocina=experiencia,
+                equipo_disponible=equipo_disponible
+            )
+
+        if len(equipo_disponible) > 120:
+            flash('El campo "Equipo disponible" es demasiado largo (máx. 120).', 'danger')
+            return render_template(
+                'registro.html',
+                alergias=alergias, alergia_otra=alergia_otra,
+                intolerancias=intolerancias, dietas=dietas,
+                no_gustan=no_gustan, experiencia_cocina=experiencia,
+                equipo_disponible=equipo_disponible
+            )
+
+        # ---- Éxito: guarda en sesión (fusiona si ya había datos) y redirige ----
+        usuario = session.get('usuario', {})
+        usuario.update({
+            'alergias': alergias,
+            'alergia_otra': alergia_otra,
+            'intolerancias': intolerancias,
+            'dietas': dietas,
+            'no_gustan': no_gustan,
+            'experiencia_cocina': experiencia,
+            'equipo_disponible': equipo_disponible
+        })
+        session['usuario'] = usuario
+
+        flash('¡Preferencias guardadas! 🎉', 'success')
+        return redirect(url_for('inicio'))  # Cambia a 'index' si tu home se llama así.
+
+    # GET
     return render_template('registro.html')
+
+
+
 
 @app.route('/imc', methods=['GET', 'POST'])
 def imc():
@@ -86,7 +162,7 @@ def imc():
     if request.method == 'POST':
         try:
             peso = float(request.form['peso'])
-            altura = float(request.form['altura']) / 100  # convertir a metros
+            altura = float(request.form['altura']) / 100  
             imc = peso / (altura ** 2)
             resultado = round(imc, 2)
 
