@@ -14,9 +14,40 @@ USUARIOS_REGISTRADOS ={
 def index():
     return render_template('inicio.html')
 
-@app.route("/perfil")
+@app.route('/perfil', methods=['GET','POST'])
 def perfil():
-    return render_template("perfil.html")
+    if request.method == 'POST':
+        alergias        = request.form.getlist('alergias')
+        intolerancias   = request.form.getlist('intolerancias')
+        dietas          = request.form.getlist('dietas')
+        alergia_otra       = (request.form.get('alergia_otra','') or '').strip()
+        no_gustan          = (request.form.get('no_gustan','') or '').strip()
+        experiencia_cocina = (request.form.get('experiencia_cocina','') or '').strip()
+        equipo_disponible  = (request.form.get('equipo_disponible','') or '').strip()
+
+        errores = []
+        if not experiencia_cocina:
+            errores.append("Selecciona tu nivel de experiencia en cocina.")
+
+        if errores:
+            for e in errores:
+                flash(e, 'danger')
+            return render_template('perfil.html')
+
+        session['perfil'] = {
+            'alergias': alergias,
+            'alergia_otra': alergia_otra,
+            'intolerancias': intolerancias,
+            'dietas': dietas,
+            'no_gustan': no_gustan,
+            'experiencia_cocina': experiencia_cocina,
+            'equipo_disponible': equipo_disponible
+        }
+        flash("Perfil completado ✅", "success")
+        return redirect(url_for('inicio'))
+
+    return render_template('perfil.html')
+
 
 @app.route('/inicio')
 def inicio():
@@ -76,6 +107,70 @@ def validalogin():
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
+    if request.method == 'POST':
+    
+        nombre           = request.form.get('nombre', '').strip()
+        apellidos        = request.form.get('apellidos', '').strip()
+        email            = request.form.get('email', '').strip()
+        password         = request.form.get('password', '').strip()
+        confirm_password = request.form.get('confirm_password', '').strip()
+
+        edad       = request.form.get('edad', '').strip()
+        genero     = request.form.get('genero', '').strip()
+        altura_cm  = request.form.get('altura_cm', '').strip()
+        peso_kg    = request.form.get('peso_kg', '').strip()
+        actividad  = request.form.get('actividad', '').strip()
+        objetivo   = request.form.get('objetivo', '').strip()
+        goals_sel  = request.form.getlist('goals')
+        goal_other = request.form.get('goal_other', '').strip()
+
+        errores = []
+        if not nombre or not apellidos or not email:
+            errores.append("Nombre, apellidos y correo son obligatorios.")
+        if '@' not in email:
+            errores.append("El correo electrónico no es válido.")
+        if len(password) < 6:
+            errores.append("La contraseña debe tener al menos 6 caracteres.")
+        if password != confirm_password:
+            errores.append("Las contraseñas no coinciden.")
+
+        try:
+            if edad:
+                edad_i = int(edad)
+                if edad_i < 18 or edad_i > 100:
+                    errores.append("La edad debe estar entre 18 y 100.")
+            if altura_cm:
+                alt_i = int(altura_cm)
+                if alt_i < 50 or alt_i > 250:
+                    errores.append("La altura debe estar entre 50 y 250 cm.")
+            if peso_kg:
+                peso_f = float(peso_kg)
+                if peso_f < 20 or peso_f > 400:
+                    errores.append("El peso debe estar entre 20 y 400 kg.")
+        except ValueError:
+            errores.append("Verifica que edad, altura y peso sean números válidos.")
+
+        if not actividad:
+            errores.append("Selecciona tu nivel de actividad física.")
+        if not objetivo:
+            errores.append("Selecciona un objetivo nutricional.")
+
+       
+        if errores:
+            for e in errores:
+                flash(e, 'danger')
+            return render_template('registro.html'), 400 
+
+        
+        session['usuario'] = {
+            'nombre': nombre, 'apellidos': apellidos, 'email': email,
+            'edad': edad, 'genero': genero, 'altura_cm': altura_cm, 'peso_kg': peso_kg,
+            'actividad': actividad, 'objetivo': objetivo,
+            'goals': goals_sel, 'goal_other': goal_other
+        }
+        flash("Registro exitoso 🎉 Ahora completa tu perfil.", "success")
+        return redirect(url_for('perfil')) 
+
     return render_template('registro.html')
 
 @app.route('/imc', methods=['GET', 'POST'])
@@ -86,7 +181,7 @@ def imc():
     if request.method == 'POST':
         try:
             peso = float(request.form['peso'])
-            altura = float(request.form['altura']) / 100  # convertir a metros
+            altura = float(request.form['altura']) / 100  
             imc = peso / (altura ** 2)
             resultado = round(imc, 2)
 
@@ -114,7 +209,7 @@ def tmb():
             edad = int(request.form['edad'])
             sexo = request.form['sexo']
 
-            # Fórmula de Mifflin-St Jeor
+            
             if sexo == 'masculino':
                 tmb = (10 * peso) + (6.25 * altura) - (5 * edad) + 5
             else:
@@ -130,7 +225,7 @@ def tmb():
 def gct():
     gct = None
     if request.method == 'POST':
-        # Verifica que todos los campos estén presentes y no vacíos
+        
         if all(k in request.form and request.form[k] for k in ['peso', 'altura', 'edad', 'sexo', 'actividad']):
             peso = float(request.form['peso'])
             altura = float(request.form['altura'])
@@ -138,14 +233,14 @@ def gct():
             sexo = request.form['sexo']
             actividad = float(request.form['actividad'])
 
-            # Fórmula de Mifflin-St Jeor
+            
             tmb = (10 * peso) + (6.25 * altura) - (5 * edad)
             if sexo == 'masculino':
                 tmb += 5
             else:
                 tmb -= 161
 
-            # Cálculo del gasto calórico total
+            
             gct = round(tmb * actividad, 2)
         else:
             gct = "Por favor completa todos los campos."
@@ -156,13 +251,13 @@ def gct():
 def peso_ideal():
     peso_ideal = None
     if request.method == 'POST':
-        # Validar que todos los campos estén completos
+       
         if all(k in request.form and request.form[k] for k in ['altura', 'edad', 'sexo']):
             altura = float(request.form['altura'])
             edad = int(request.form['edad'])
             sexo = request.form['sexo']
 
-            # Fórmula de Lorentz (considera altura, sexo y edad)
+           
             if sexo == 'masculino':
                 peso_ideal = (altura - 100) - ((altura - 150) / 4) + ((edad - 20) / 4)
             else:
@@ -182,15 +277,15 @@ def macronutrientes():
             calorias = float(request.form['calorias'])
             objetivo = request.form['objetivo']
 
-            # Ajuste calórico según objetivo
+            
             if objetivo == 'mantener':
                 calorias_totales = calorias
             elif objetivo == 'perder':
-                calorias_totales = calorias * 0.85  # -15%
+                calorias_totales = calorias * 0.85  
             else:  # ganar
-                calorias_totales = calorias * 1.15  # +15%
+                calorias_totales = calorias * 1.15  
 
-            # Distribución típica (en porcentaje)
+          
             proteinas = 0.25 * calorias_totales / 4
             carbohidratos = 0.50 * calorias_totales / 4
             grasas = 0.25 * calorias_totales / 9
@@ -209,47 +304,7 @@ def macronutrientes():
 @app.route('/analizador', methods=['GET', 'POST'])
 def analizador():
     resultado = None
-    if request.method == 'POST':
-        receta = request.form.get('receta', '').strip().lower()
-
-        # Pequeña base de datos simulada (por 100 g o unidad aprox)
-        alimentos = {
-            'pollo': {'calorias': 165, 'proteinas': 31, 'carbohidratos': 0, 'grasas': 3.6},
-            'arroz': {'calorias': 130, 'proteinas': 2.7, 'carbohidratos': 28, 'grasas': 0.3},
-            'huevo': {'calorias': 155, 'proteinas': 13, 'carbohidratos': 1.1, 'grasas': 11},
-            'aguacate': {'calorias': 160, 'proteinas': 2, 'carbohidratos': 9, 'grasas': 15},
-            'pan': {'calorias': 265, 'proteinas': 9, 'carbohidratos': 49, 'grasas': 3.2},
-            'manzana': {'calorias': 52, 'proteinas': 0.3, 'carbohidratos': 14, 'grasas': 0.2},
-            'queso': {'calorias': 402, 'proteinas': 25, 'carbohidratos': 1.3, 'grasas': 33},
-            'pasta': {'calorias': 131, 'proteinas': 5, 'carbohidratos': 25, 'grasas': 1.1}
-        }
-
-        # Separar los ingredientes escritos por el usuario
-        ingredientes = [i.strip() for i in receta.split(',') if i.strip()]
-        if ingredientes:
-            total = {'calorias': 0, 'proteinas': 0, 'carbohidratos': 0, 'grasas': 0}
-            encontrados = []
-
-            for ing in ingredientes:
-                if ing in alimentos:
-                    for k in total:
-                        total[k] += alimentos[ing][k]
-                    encontrados.append(ing)
-
-            if encontrados:
-                resultado = {
-                    'ingredientes': ', '.join(encontrados),
-                    'calorias': round(total['calorias'], 1),
-                    'proteinas': round(total['proteinas'], 1),
-                    'carbohidratos': round(total['carbohidratos'], 1),
-                    'grasas': round(total['grasas'], 1)
-                }
-            else:
-                resultado = "No se reconocieron los ingredientes. Intenta con: pollo, arroz, huevo, etc."
-        else:
-            resultado = "Por favor, escribe al menos un ingrediente."
-
-    return render_template('analizador.html', resultado=resultado)
+    return render_template('analizador.html', )
 
 
 
