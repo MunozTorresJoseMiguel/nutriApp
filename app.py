@@ -61,11 +61,12 @@ def recetas():
 def consejos():
     return render_template('consejos.html')
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
     flash('Has cerrado sesión exitosamente.', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('inicio'))
+
 
 
 @app.route("/sesion")
