@@ -1,4 +1,5 @@
 from flask import Flask, render_template,redirect,request,url_for,flash,session
+import requests
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="Jose_Miguel7"
@@ -10,45 +11,12 @@ USUARIOS_REGISTRADOS ={
     }    
 }
 
-@app.route('/')
-def index():
-    return render_template('inicio.html')
+@app.route('/analizador', methods=['GET', 'POST'])
+def analizador():
+    resultado = None
+    return render_template('analizador.html', )
 
-@app.route('/perfil', methods=['GET','POST'])
-def perfil():
-    if request.method == 'POST':
-        alergias        = request.form.getlist('alergias')
-        intolerancias   = request.form.getlist('intolerancias')
-        dietas          = request.form.getlist('dietas')
-        alergia_otra       = (request.form.get('alergia_otra','') or '').strip()
-        no_gustan          = (request.form.get('no_gustan','') or '').strip()
-        experiencia_cocina = (request.form.get('experiencia_cocina','') or '').strip()
-        equipo_disponible  = (request.form.get('equipo_disponible','') or '').strip()
-
-        errores = []
-        if not experiencia_cocina:
-            errores.append("Selecciona tu nivel de experiencia en cocina.")
-
-        if errores:
-            for e in errores:
-                flash(e, 'danger')
-            return render_template('perfil.html')
-
-        session['perfil'] = {
-            'alergias': alergias,
-            'alergia_otra': alergia_otra,
-            'intolerancias': intolerancias,
-            'dietas': dietas,
-            'no_gustan': no_gustan,
-            'experiencia_cocina': experiencia_cocina,
-            'equipo_disponible': equipo_disponible
-        }
-        flash("Perfil completado ✅", "success")
-        return redirect(url_for('inicio'))
-
-    return render_template('perfil.html')
-
-
+# Rutas de la aplicación que no requieren autenticación
 @app.route('/inicio')
 def inicio():
     return render_template('inicio.html')
@@ -67,8 +35,6 @@ def logout():
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio'))
 
-
-
 @app.route("/sesion")
 def sesion():
     return render_template("index.html")
@@ -77,6 +43,15 @@ def sesion():
 def otro():
     return render_template("sesion.html")
 
+@app.route('/')
+def index():
+    return render_template('inicio.html')
+
+@app.route('/indexforcalculadora')
+def indexforcalculadora():
+    return render_template('indexforcalculadora.html')
+
+#Las sieguentes rutas tiene metodo POST y GET 
 @app.route("/validalogin", methods=['GET', 'POST'])
 def validalogin():
     if request.method == 'POST':
@@ -302,10 +277,41 @@ def macronutrientes():
 
     return render_template('macronutrientes.html', macros=macros)
 
-@app.route('/analizador', methods=['GET', 'POST'])
-def analizador():
-    resultado = None
-    return render_template('analizador.html', )
+@app.route('/perfil', methods=['GET','POST'])
+def perfil():
+    if request.method == 'POST':
+        alergias        = request.form.getlist('alergias')
+        intolerancias   = request.form.getlist('intolerancias')
+        dietas          = request.form.getlist('dietas')
+        alergia_otra       = (request.form.get('alergia_otra','') or '').strip()
+        no_gustan          = (request.form.get('no_gustan','') or '').strip()
+        experiencia_cocina = (request.form.get('experiencia_cocina','') or '').strip()
+        equipo_disponible  = (request.form.get('equipo_disponible','') or '').strip()
+
+        errores = []
+        if not experiencia_cocina:
+            errores.append("Selecciona tu nivel de experiencia en cocina.")
+
+        if errores:
+            for e in errores:
+                flash(e, 'danger')
+            return render_template('perfil.html')
+
+        session['perfil'] = {
+            'alergias': alergias,
+            'alergia_otra': alergia_otra,
+            'intolerancias': intolerancias,
+            'dietas': dietas,
+            'no_gustan': no_gustan,
+            'experiencia_cocina': experiencia_cocina,
+            'equipo_disponible': equipo_disponible
+        }
+        flash("Perfil completado ✅", "success")
+        return redirect(url_for('inicio'))
+
+    return render_template('perfil.html')
+
+
 
 
 
