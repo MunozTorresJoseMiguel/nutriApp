@@ -21,9 +21,6 @@ def analizador():
 def inicio():
     return render_template('inicio.html')
 
-@app.route('/recetas')
-def recetas():
-    return render_template('recetas.html')
 
 @app.route('/consejos')
 def consejos():

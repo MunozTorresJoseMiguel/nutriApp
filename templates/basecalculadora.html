@@ -19,6 +19,12 @@
             <a class="navbar-brand fw-semibold" href="#">
                 🧮 Mis Calculadoras
             </a>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('imc') }}">Índice de Masa Corporal</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('tmb') }}">Tasa Metabólica Basal </a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('gct') }}">Gasto Calórico Total</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('peso_ideal') }}">Peso Corporal Ideal</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('macronutrientes') }}">Macronutrientes</a></li>
+              <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('inicio') }}">Inicio</a></li>
         </div>
     </nav>
 
@@ -27,8 +33,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-11 col-md-8 col-lg-5">
-
-                   
+            
                     <div class="p-4 p-md-5 rounded-4 shadow-lg bg-light bg-opacity-75">
                         <h1 class="h4 text-center mb-3">
                             {% block header %}Calculadora{% endblock %}
