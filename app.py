@@ -26,11 +26,12 @@ def inicio():
 def consejos():
     return render_template('consejos.html')
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.clear()
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio'))
+
 
 @app.route("/sesion")
 def sesion():
@@ -44,9 +45,7 @@ def otro():
 def index():
     return render_template('inicio.html')
 
-@app.route('/indexforcalculadora')
-def indexforcalculadora():
-    return render_template('indexforcalculadora.html')
+
 
 #Las sieguentes rutas tiene metodo POST y GET 
 @app.route("/validalogin", methods=['GET', 'POST'])
@@ -68,15 +67,16 @@ def validalogin():
             flash('Contraseña incorrecta.', 'danger')
             return render_template('sesion.html')
 
-        
-        session['usuario_email'] = email
-        session['usuario_nombre'] = usuario['nombre']
-        session['logueado'] = True
+        # 🔴 AQUÍ ES LO IMPORTANTE:
+        session['usuario'] = {
+            'nombre': usuario['nombre'],
+            'email': email
+        }
         flash(f'Bienvenido {usuario["nombre"]}!', 'success')
         return redirect(url_for('inicio'))
 
-    
     return render_template('sesion.html')
+
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -148,6 +148,7 @@ def registro():
 
 @app.route('/imc', methods=['GET', 'POST'])
 def imc():
+    
     resultado = None
     categoria = None
 
@@ -307,6 +308,20 @@ def perfil():
         return redirect(url_for('inicio'))
 
     return render_template('perfil.html')
+
+@app.route('/indexforcalculadora', methods=['GET', 'POST'])
+def calculadora():
+   
+    if 'usuario' not in session:
+        flash("Debes iniciar sesión para usar la calculadora 🤓", "warning")
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+       
+        resultado = 0 
+        return render_template('indexforcalculadora.html', resultado=resultado)
+
+    return render_template('indexforcalculadora.html')
 
 
 

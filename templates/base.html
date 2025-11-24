@@ -10,26 +10,44 @@
 
 <body style="background-color:#fff8e1;">
 
-    
-    <nav class="navbar navbar-expand-lg bg-light shadow-sm">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <a class="navbar-brand fw-bold text-success" href="{{ url_for('inicio') }}">🥑 NutriApp</a>
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('inicio') }}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('imc') }}">IMC</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('consejos') }}">Consejos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('otro') }}">Inicia sesion</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('registro') }}">Registrarse</a></li>
+            <a class="navbar-brand" href="{{ url_for('inicio') }}">NutriApp</a>
+
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+
+                    {% if session.get('usuario') %}
+
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">
+                            Hola, {{ session['usuario']['nombre'] }} 👋
+                        </span>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                    </li>
+
+                    {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('registro') }}">Registrarse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('validalogin') }}">Iniciar sesión</a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
     </nav>
 
-   
+
+
     <main class="container py-5">
         {% block content %}{% endblock %}
     </main>

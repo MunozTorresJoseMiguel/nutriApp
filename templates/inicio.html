@@ -11,19 +11,36 @@
 <div class="row g-4 justify-content-center" style="background: url('../static/img/fondo.jpg') center/cover no-repeat;
             min-height: 100vh; padding: 40px;">
 
-    <!-- Tarjeta 1 -->
     <div class="col-12 col-sm-6 col-md-4">
-        <a href="{{ url_for('indexforcalculadora') }}" class="text-decoration-none">
+
+        {% if session.get('usuario') %}
+
+        <a href="{{ url_for('calculadora') }}" class="text-decoration-none">
             <div class="card text-white text-center" style="background-color:#62883A; border:none;">
                 <div class="card-body py-5">
                     <h4 class="fw-bold">Calculadoras</h4>
-                    <p>Conoce las calculadoras para el bien nutricional</p>
+                    <p>Encuentra los cálculos para el bien</p>
                 </div>
             </div>
         </a>
+
+        {% else %}
+
+        <div class="card text-white text-center opacity-50" style="background-color:#62883A; border:none;">
+            <div class="card-body py-5">
+                <h4 class="fw-bold">Calculadoras</h4>
+                <p>Inicia sesión para usar esta herramienta</p>
+
+                <a href="{{ url_for('validalogin') }}" class="btn btn-light mt-3">
+                    Iniciar sesión
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 
-    
+
 
     <!-- Tarjeta 3 -->
     <div class="col-12 col-sm-6 col-md-4">
@@ -75,4 +92,5 @@
     </div>
 
 </div>
+
 {% endblock %}

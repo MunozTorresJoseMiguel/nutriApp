@@ -1,43 +1,87 @@
-{% extends 'basecalculadora.html' %} {% block title %}calcula el bienestar{%
-endblock %} {% block content %}
-<div class="row g-4 justify-content-center">
+{% extends 'basecalculadora.html' %}
+{% block title %}Calcula el bienestar{% endblock %}
 
-<div class="card" style="width: 18rem">
-  <img src="static/img/gifdelcomelon.gif" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <a href="{{ url_for('imc') }}" class="text-decoration-none">
-    <p class="card-text">
-      Conoce tu peso ideal para una una vida sana.
-    </p>
+{% block content %}
+
+<div class="container py-4">
+  <div class="row g-4 justify-content-center">
+
+    <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+
+      <div class="card text-light border-0 shadow" style="width: 100%; max-width: 320px; background-color: #827717;">
+
+        <img src="{{ url_for('static', filename='img/bascula.gif') }}" class="card-img-top" alt="IMC">
+
+        <div class="card-body text-center">
+          <a href="{{ url_for('imc') }}" class="text-decoration-none text-light">
+            <h5 class="fw-bold">IMC</h5>
+            <p class="card-text">Calcula tu Índice de Masa Corporal.</p>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+
+      <div class="card b text-light border-0 shadow" style="width: 100%; max-width: 320px; background-color: #FFCA28;">
+
+        <img src="{{ url_for('static', filename='img/tmb.jpeg') }}" class="card-img-top" alt="TMB">
+
+        <div class="card-body text-center">
+
+          <a href="{{ url_for('tmb') }}" class="text-decoration-none text-light">
+
+            <h5 class="fw-bold">TMB</h5>
+
+            <p class="card-text">Conoce tu metabolismo basal.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+
+      <div class=" text-light border-0 shadow" style="width: 100%; max-width: 320px; background-color: #8E24AA;">
+
+        <img src="{{ url_for('static', filename='img/pesoideal.webp') }}" class="card-img-top" alt="Peso ideal">
+
+        <div class="card-body text-center">
+
+          <a href="{{ url_for('peso_ideal') }}" class="text-decoration-none text-light">
+
+            <h5 class="fw-bold">Peso Ideal</h5>
+
+            <p class="card-text">Descubre tu peso ideal.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+
+      <div class="card bg-dark text-light border-0 shadow"
+        style="width: 100%; max-width: 320px; background-color: #43A047;">
+
+        <img src="{{ url_for('static', filename='img/macro.webp') }}" class="card-img-top" alt="Macros">
+
+        <div class="card-body text-center">
+
+          <a href="{{ url_for('macronutrientes') }}" class="text-decoration-none text-light">
+
+            <h5 class="fw-bold">Macronutrientes</h5>
+
+            <p class="card-text">Calcula tus macros ideales.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<div class="card" style="width: 18rem"  class="col-12 col-sm-6 col-md-4">
-  <img src="static/img/gifdelcomelon.gif" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <p class="card-text">
-      Conoce tu peso ideal para una una vida sana.
-    </p>
-  </div>
-</div>
-
-<div class="card" style="width: 18rem" class="col-12 col-sm-6 col-md-4">
-  <img src="static/img/gifdelcomelon.gif" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <p class="card-text">
-      Conoce tu peso ideal para una una vida sana.
-    </p>
-  </div>
-</div>
-
-<div class="card" style="width: 18rem" class="col-12 col-sm-6 col-md-4">
-  <img src="static/img/gifdelcomelon.gif" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <p class="card-text">
-      Conoce tu peso ideal para una una vida sana.
-    </p>
-  </div>
-</div>
-
-</div>
 {% endblock %}
