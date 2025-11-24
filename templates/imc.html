@@ -17,7 +17,7 @@
               </div>
             </div>
 
-            <form method="POST" action="/imc">
+            <form method="POST" action="{{ url_for('imc') }}">
               <hr class="my-4">
 
               <div class="row g-3">
@@ -39,12 +39,17 @@
             </form>
 
             {% if resultado %}
-            <h5 class="my-4">
+            <div class="my-4">
               <div class="alert alert-light border-success text-center rounded-4">
-                <h6 class="mb-1 text-success">Tu IMC es: <strong>{{ resultado }}</strong></h6>
-                <p class="mb-0"><strong>Clasificación:</strong> {{ categoria }}</p>
+                <h6 class="mb-1 text-success">
+                  Tu IMC es: <strong>{{ resultado }}</strong>
+                </h6>
+                <p class="mb-0">
+                  <strong>Clasificación:</strong> {{ categoria }}
+                </p>
               </div>
-              {% endif %}
+            </div>
+            {% endif %}
 
           </div>
         </div>
@@ -55,5 +60,43 @@
     </div>
   </div>
 </div>
+
+{% if resultado and info %}
+<div class="container mt-4 mb-5">
+  <div class="row g-4 align-items-center">
+
+    <!-- Imagen -->
+    <div class="col-12 col-md-4 d-flex justify-content-center">
+      {% if info.imagen %}
+      <img src="{{ url_for('static', filename=info.imagen) }}" alt="{{ info.titulo }}" class="img-fluid rounded shadow">
+      {% endif %}
+    </div>
+
+    <!-- Texto explicativo -->
+    <div class="col-12 col-md-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-2">{{ info.titulo }}</h5>
+
+          <p class="mb-1">
+            <strong>Tu IMC:</strong> {{ resultado }} ({{ categoria }})
+          </p>
+
+          <p class="mb-2">
+            {{ info.descripcion }}
+          </p>
+
+          {% if info.extra %}
+          <p class="mb-0 text-muted">
+            {{ info.extra }}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}

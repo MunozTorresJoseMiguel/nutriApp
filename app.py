@@ -13,7 +13,7 @@ USUARIOS_REGISTRADOS ={
 
 @app.route('/analizador', methods=['GET', 'POST'])
 def analizador():
-    resultado = None
+    
     return render_template('analizador.html', )
 
 # Rutas de la aplicación que no requieren autenticación
@@ -148,9 +148,9 @@ def registro():
 
 @app.route('/imc', methods=['GET', 'POST'])
 def imc():
-    
     resultado = None
     categoria = None
+    info = None
 
     if request.method == 'POST':
         try:
@@ -159,6 +159,7 @@ def imc():
             imc = peso / (altura ** 2)
             resultado = round(imc, 2)
 
+            # Clasificación del IMC
             if imc < 18.5:
                 categoria = "Bajo peso"
             elif 18.5 <= imc < 24.9:
@@ -167,11 +168,48 @@ def imc():
                 categoria = "Sobrepeso"
             else:
                 categoria = "Obesidad"
-        except:
+
+            # Información nutricional
+            info = {
+                "titulo": "¿Para qué sirve el IMC?",
+                "descripcion": (
+                    "El IMC (Índice de Masa Corporal) es una herramienta que ayuda a estimar si "
+                    "tu peso está dentro de un rango saludable según tu estatura. No sustituye una "
+                    "valoración médica, pero es una referencia rápida sobre tu estado nutricional."
+                ),
+                "extra": "",
+                "imagen": "img/imc_info.png"
+            }
+
+            # Mensajes según categoría
+            if categoria == "Bajo peso":
+                info["extra"] = (
+                    "Tu IMC indica bajo peso. Podrías necesitar aumentar tu ingesta calórica con "
+                    "alimentos nutritivos y consultar a un profesional de la salud."
+                )
+            elif categoria == "Peso normal":
+                info["extra"] = (
+                    "Tu IMC está en un rango saludable. Mantén una alimentación equilibrada y "
+                    "actividad física regular."
+                )
+            elif categoria == "Sobrepeso":
+                info["extra"] = (
+                    "Tu IMC indica sobrepeso. Podrías beneficiarte de mejorar tus hábitos de "
+                    "alimentación y aumentar tu actividad física."
+                )
+            else:  # Obesidad
+                info["extra"] = (
+                    "Tu IMC entra en el rango de obesidad. Es recomendable acudir con un profesional "
+                    "de la salud para una valoración más completa."
+                )
+
+        except Exception as e:
             resultado = "Error"
             categoria = "Verifica los datos"
+            info = None
 
-    return render_template('imc.html', resultado=resultado, categoria=categoria)
+    return render_template('imc.html', resultado=resultado, categoria=categoria, info=info)
+
 
 @app.route('/tmb', methods=['GET', 'POST'])
 def tmb():
