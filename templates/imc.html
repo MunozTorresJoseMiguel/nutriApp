@@ -68,14 +68,16 @@
     <!-- Imagen -->
     <div class="col-12 col-md-4 d-flex justify-content-center">
       {% if info.imagen %}
-      <img src="{{ url_for('static', filename=info.imagen) }}" alt="{{ info.titulo }}" class="img-fluid rounded shadow">
+      <img src="{{ url_for('static', filename='img/bajo.webp') }}" alt="{{ info.titulo }}"
+        class="img-fluid rounded shadow">
       {% endif %}
     </div>
 
     <!-- Texto explicativo -->
     <div class="col-12 col-md-8">
-      <div class="card border-0 shadow-sm">
+      <div class="card border-0 shadow-sm p-4 rounded-4" style="background:white;">
         <div class="card-body">
+
           <h5 class="card-title mb-2">{{ info.titulo }}</h5>
 
           <p class="mb-1">
@@ -91,6 +93,7 @@
             {{ info.extra }}
           </p>
           {% endif %}
+
         </div>
       </div>
     </div>

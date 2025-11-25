@@ -12,28 +12,26 @@
 
             <div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3">
               <div>
-                <h5 class="mb-0 text-success">Calculadora de Tasa Metabólica Basal (TMB)</h5>
+                <h5 class="mb-0 text-success">Calculadora de TMB</h5>
                 <small class="text-muted">Descubre cuántas calorías quemas en reposo 🔥</small>
               </div>
             </div>
 
-            <form method="POST" action="/tmb">
+            <form method="POST" action="{{ url_for('tmb') }}">
               <hr class="my-4">
 
               <div class="row g-3">
                 <div class="col-12 col-md-6">
                   <label for="peso" class="form-label">Peso (kg)</label>
-                  <input type="number" step="0.1" class="form-control" id="peso" name="peso" placeholder="Ej. 70.5"
-                    required>
+                  <input type="number" step="0.1" class="form-control" id="peso" name="peso" required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="altura" class="form-label">Altura (cm)</label>
-                  <input type="number" step="0.1" class="form-control" id="altura" name="altura" placeholder="Ej. 175"
-                    required>
+                  <input type="number" step="0.1" class="form-control" id="altura" name="altura" required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="edad" class="form-label">Edad (años)</label>
-                  <input type="number" class="form-control" id="edad" name="edad" placeholder="Ej. 25" required>
+                  <input type="number" class="form-control" id="edad" name="edad" required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="sexo" class="form-label">Sexo</label>
@@ -54,18 +52,51 @@
             <hr class="my-4">
             <div class="alert alert-light border-success text-center rounded-4">
               <h5 class="mb-1 text-success">Tu TMB es: <strong>{{ resultado }} kcal/día</strong></h5>
-              <p class="mb-0">Este es el número estimado de calorías que tu cuerpo necesita para funcionar en reposo.
-              </p>
+              <p class="mb-0">Tus calorías mínimas para funcionar en reposo.</p>
             </div>
             {% endif %}
+
           </div>
         </div>
+
         <p class="text-center text-white-50 small mt-3 px-2">
-          Calcula tu TMB para personalizar tu plan nutricional en NutriApp 💚
+          Calcula tu TMB para personalizar tu plan nutricional 💚
         </p>
       </div>
     </div>
   </div>
 </div>
+
+{% if resultado and info %}
+<div class="container mt-5 mb-5">
+  <div class="row g-4 align-items-center">
+
+    <!-- Imagen -->
+    <div class="col-12 col-md-4 d-flex justify-content-center">
+      {% if info.imagen %}
+      <img src="{{ url_for('static', filename='img/tasabasal.webp') }}" alt="{{ info.titulo }}"
+        class="img-fluid rounded shadow">
+      {% endif %}
+    </div>
+
+    <!-- Información -->
+    <div class="col-12 col-md-8">
+      <div class="card border-0 shadow-sm p-4 rounded-4" style="background:white;">
+        <div class="card-body">
+
+          <h5 class="card-title">{{ info.titulo }}</h5>
+
+          <p class="mb-2">{{ info.descripcion }}</p>
+
+          {% if info.extra %}
+          <p class="text-muted">{{ info.extra }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}

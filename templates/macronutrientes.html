@@ -11,7 +11,9 @@
           <div class="card-body p-4 p-md-5">
 
             <h5 class="text-success mb-0">Calculadora de Macronutrientes</h5>
-            <small class="text-muted">Equilibra tu consumo de proteínas, grasas y carbohidratos 🍽️</small>
+            <small class="text-muted">
+              Equilibra tu consumo de proteínas, grasas y carbohidratos 🍽️
+            </small>
             <hr class="my-4">
 
             <form method="POST" class="row g-3">
@@ -32,7 +34,9 @@
               </div>
 
               <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-success btn-lg">Calcular Macronutrientes</button>
+                <button type="submit" class="btn btn-success btn-lg">
+                  Calcular Macronutrientes
+                </button>
               </div>
             </form>
 
@@ -49,18 +53,47 @@
                 <li><strong>Carbohidratos:</strong> {{ macros.carbohidratos }} g (50%)</li>
                 <li><strong>Grasas:</strong> {{ macros.grasas }} g (25%)</li>
               </ul>
-              <p class="text-muted small mb-0">Los valores son estimados y pueden variar según tu metabolismo y
-                actividad física.</p>
+              <p class="text-muted small mb-0">
+                Los valores son estimados y pueden variar según tu metabolismo y actividad física.
+              </p>
               {% endif %}
             </div>
             {% endif %}
 
           </div>
         </div>
-        <p class="text-center text-white-50 small mt-3">NutriApp 🍏 - Calcula tu balance nutricional</p>
+        <p class="text-center text-white-50 small mt-3">
+          NutriApp 🍏 - Calcula tu balance nutricional
+        </p>
       </div>
     </div>
   </div>
 </div>
+
+{% if macros and macros is not string and info %}
+<div class="container mt-5 mb-5">
+  <div class="row g-4 align-items-center">
+
+
+    <div class="col-12 col-md-4 d-flex justify-content-center">
+      <img src="{{ url_for('static', filename=info.imagen) }}" alt="{{ info.titulo }}" class="img-fluid rounded shadow">
+    </div>
+
+
+    <div class="col-12 col-md-8">
+      <div class="card border-0 shadow-sm p-4 rounded-4" style="background:white;">
+        <div class="card-body">
+          <h5 class="card-title">{{ info.titulo }}</h5>
+          <p class="mb-2">{{ info.descripcion }}</p>
+          {% if info.extra %}
+          <p class="text-muted mb-0">{{ info.extra }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}

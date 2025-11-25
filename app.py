@@ -169,7 +169,7 @@ def imc():
             else:
                 categoria = "Obesidad"
 
-            # Información nutricional
+          
             info = {
                 "titulo": "¿Para qué sirve el IMC?",
                 "descripcion": (
@@ -181,7 +181,7 @@ def imc():
                 "imagen": "img/imc_info.png"
             }
 
-            # Mensajes según categoría
+            
             if categoria == "Bajo peso":
                 info["extra"] = (
                     "Tu IMC indica bajo peso. Podrías necesitar aumentar tu ingesta calórica con "
@@ -197,7 +197,7 @@ def imc():
                     "Tu IMC indica sobrepeso. Podrías beneficiarte de mejorar tus hábitos de "
                     "alimentación y aumentar tu actividad física."
                 )
-            else:  # Obesidad
+            else:
                 info["extra"] = (
                     "Tu IMC entra en el rango de obesidad. Es recomendable acudir con un profesional "
                     "de la salud para una valoración más completa."
@@ -214,6 +214,8 @@ def imc():
 @app.route('/tmb', methods=['GET', 'POST'])
 def tmb():
     resultado = None
+    info = None
+
     if request.method == 'POST':
         try:
             peso = float(request.form['peso'])
@@ -223,15 +225,35 @@ def tmb():
 
             
             if sexo == 'masculino':
-                tmb = (10 * peso) + (6.25 * altura) - (5 * edad) + 5
+                tmb_valor = (10 * peso) + (6.25 * altura) - (5 * edad) + 5
             else:
-                tmb = (10 * peso) + (6.25 * altura) - (5 * edad) - 161
+                tmb_valor = (10 * peso) + (6.25 * altura) - (5 * edad) - 161
 
-            resultado = round(tmb, 2)
+            resultado = round(tmb_valor, 2)
+
+            info = {
+                "titulo": "¿Para qué sirve la TMB?",
+                "descripcion": (
+                    "La Tasa Metabólica Basal (TMB) es la cantidad de calorías que tu cuerpo "
+                    "necesita para funcionar en reposo absoluto. "
+                    "Incluye procesos como respirar, mantener la temperatura corporal "
+                    "y el funcionamiento de órganos vitales."
+                ),
+                "extra": "",
+                "imagen": "img/tasabasal.webp"  
+            }
+
+            if sexo == "masculino":
+                info["extra"] = "Tu cuerpo tiende a tener mayor masa muscular, lo cual aumenta ligeramente tu TMB."
+            else:
+                info["extra"] = "En mujeres la TMB suele ser más baja debido a diferencias hormonales y musculares."
+
         except:
-            resultado = "Error. Verifica los datos ingresados."
+            resultado = None
+            info = None
 
-    return render_template('tmb.html', resultado=resultado)
+    return render_template('tmb.html', resultado=resultado, info=info)
+
 
 @app.route('/gct', methods=['GET', 'POST'])
 def gct():
@@ -262,28 +284,48 @@ def gct():
 @app.route('/peso_ideal', methods=['GET', 'POST'])
 def peso_ideal():
     peso_ideal = None
+    info = None
+
     if request.method == 'POST':
-       
-        if all(k in request.form and request.form[k] for k in ['altura', 'edad', 'sexo']):
+        try:
             altura = float(request.form['altura'])
             edad = int(request.form['edad'])
             sexo = request.form['sexo']
 
-           
+          
             if sexo == 'masculino':
-                peso_ideal = (altura - 100) - ((altura - 150) / 4) + ((edad - 20) / 4)
+                peso_ideal_valor = (altura - 100) - ((altura - 150) / 4) + ((edad - 20) / 4)
             else:
-                peso_ideal = (altura - 100) - ((altura - 150) / 2.5) + ((edad - 20) / 6)
+                peso_ideal_valor = (altura - 100) - ((altura - 150) / 2.5) + ((edad - 20) / 6)
 
-            peso_ideal = round(peso_ideal, 2)
-        else:
-            peso_ideal = "Por favor completa todos los campos."
+            peso_ideal = round(peso_ideal_valor, 2)
 
-    return render_template('peso_ideal.html', peso_ideal=peso_ideal)
+            info = {
+                "titulo": "¿Qué es el Peso Ideal?",
+                "descripcion": (
+                    "El peso ideal es una estimación del peso que tu cuerpo debería tener según tu "
+                    "altura, edad y sexo. No busca un cuerpo ‘perfecto’, sino un rango saludable que "
+                    "ayude a reducir riesgos de enfermedades y mejorar tu bienestar general."
+                ),
+                "extra": (
+                    "Este cálculo es una referencia. La composición corporal, músculo y grasa pueden "
+                    "hacer que tu peso ideal real varíe ligeramente."
+                ),
+                "imagen": "img/pesoidea.webp"  
+            }
+
+        except:
+            peso_ideal = "Error: verifica los datos ingresados."
+            info = None
+
+    return render_template('peso_ideal.html', peso_ideal=peso_ideal, info=info)
+
 
 @app.route('/macronutrientes', methods=['GET', 'POST'])
 def macronutrientes():
     macros = None
+    info = None
+
     if request.method == 'POST':
         if all(k in request.form and request.form[k] for k in ['calorias', 'objetivo']):
             calorias = float(request.form['calorias'])
@@ -294,10 +336,10 @@ def macronutrientes():
                 calorias_totales = calorias
             elif objetivo == 'perder':
                 calorias_totales = calorias * 0.85  
-            else:  # ganar
+            else:  
                 calorias_totales = calorias * 1.15  
 
-          
+           
             proteinas = 0.25 * calorias_totales / 4
             carbohidratos = 0.50 * calorias_totales / 4
             grasas = 0.25 * calorias_totales / 9
@@ -308,10 +350,41 @@ def macronutrientes():
                 'carbohidratos': round(carbohidratos, 1),
                 'grasas': round(grasas, 1)
             }
+
+            
+            info = {
+                "titulo": "¿Por qué son importantes los macronutrientes?",
+                "descripcion": (
+                    "Los macronutrientes son los nutrientes que tu cuerpo necesita en mayor cantidad: "
+                    "proteínas, carbohidratos y grasas. Una buena distribución ayuda a tener energía, "
+                    "mantener la masa muscular y regular hormonas y funciones vitales."
+                ),
+                "extra": "",
+                "imagen": "img/macros.webp"  
+            }
+
+            if objetivo == 'mantener':
+                info["extra"] = (
+                    "Esta distribución está pensada para mantener tu peso actual con un equilibrio "
+                    "entre energía y saciedad."
+                )
+            elif objetivo == 'perder':
+                info["extra"] = (
+                    "El ligero déficit calórico te ayuda a perder grasa de forma gradual, "
+                    "manteniendo proteínas suficientes para cuidar tu masa muscular."
+                )
+            else:  
+                info["extra"] = (
+                    "El superávit calórico favorece la ganancia de masa muscular si lo combinas "
+                    "con entrenamiento de fuerza."
+                )
+
         else:
             macros = "Por favor completa todos los campos."
+            info = None
 
-    return render_template('macronutrientes.html', macros=macros)
+    return render_template('macronutrientes.html', macros=macros, info=info)
+
 
 @app.route('/perfil', methods=['GET','POST'])
 def perfil():
