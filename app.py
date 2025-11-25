@@ -1,5 +1,8 @@
 from flask import Flask, render_template,redirect,request,url_for,flash,session
 import requests
+from flask_mysqldb import Mysql
+from werkzeug.security import generate_password_hash
+import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="Jose_Miguel7"
@@ -435,9 +438,20 @@ def calculadora():
     return render_template('indexforcalculadora.html')
 
 
+## CONFIGURACION MYSQL
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASWORD']=''
+app.config['MYSQL_DB']='usuarios_db'
 
+mysql = MySQL(app)
 
-
+def crear_tabla():
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('''
+                       )''')mysql.connection.commit()
+    except Exception as e: 
 
 if __name__ == '__main__':
     app.run(debug=True)
