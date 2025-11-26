@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}Guía Nutricional — NutriApp{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center min-vh-100 w-100"
+    style="background:linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url('../static/img/fondosesion.jpg') center center / cover no-repeat fixed;">
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+
+
+                <div class="card shadow-sm rounded-4 border-success mb-4 bg-white bg-opacity-90">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="text-success mb-1">Guía básica de nutrición</h3>
+                        <p class="text-muted mb-0">
+                            Aprende a tomar mejores decisiones sobre tu alimentación: etiquetas, macronutrientes, dietas
+                            de moda
+                            e hidratación. Todo explicado de forma clara y sencilla. 💚
+                        </p>
+                    </div>
+                </div>
+
+                <div class="accordion" id="guiaNutricional">
+
+                    <div class="accordion-item border-success mb-3 rounded-4 overflow-hidden">
+                        <h2 class="accordion-header" id="headingEtiquetas">
+                            <button class="accordion-button collapsed fw-semibold text-success" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseEtiquetas" aria-expanded="false"
+                                aria-controls="collapseEtiquetas">
+                                🏷️ ¿Cómo leer las etiquetas nutricionales?
+                            </button>
+                        </h2>
+                        <div id="collapseEtiquetas" class="accordion-collapse collapse"
+                            aria-labelledby="headingEtiquetas" data-bs-parent="#guiaNutricional">
+                            <div class="accordion-body">
+                                <p>
+                                    Las <strong>etiquetas nutricionales</strong> te ayudan a saber qué estás comiendo
+                                    realmente.
+                                    No son decoración: son tu mapa para elegir mejor.
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Porción:</strong> verifica a cuántos gramos o piezas se refiere la
+                                        etiqueta.
+                                        A veces los valores parecen “bajos” porque la porción es muy pequeña.
+                                    </li>
+                                    <li>
+                                        <strong>Calorías:</strong> indican cuánta energía aporta una porción.
+                                        Compáralas con tus necesidades diarias.
+                                    </li>
+                                    <li>
+                                        <strong>Azúcares y grasas:</strong> intenta elegir productos con menos azúcares
+                                        añadidos
+                                        y menos grasas saturadas o trans.
+                                    </li>
+                                    <li>
+                                        <strong>Sodio:</strong> un exceso se relaciona con hipertensión. Prefiere
+                                        productos bajos en sodio.
+                                    </li>
+                                    <li>
+                                        <strong>Ingredientes:</strong> mientras más corta sea la lista y más
+                                        reconocibles los ingredientes,
+                                        generalmente es mejor.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    <em>Tip NutriApp:</em> si los primeros ingredientes son azúcar, jarabes o harinas
+                                    refinadas, quizá no
+                                    sea la mejor opción para consumir todos los días.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="accordion-item border-success mb-3 rounded-4 overflow-hidden">
+                        <h2 class="accordion-header" id="headingDietas">
+                            <button class="accordion-button collapsed fw-semibold text-success" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseDietas" aria-expanded="false"
+                                aria-controls="collapseDietas">
+                                🤔 Mitos y verdades sobre las dietas de moda
+                            </button>
+                        </h2>
+                        <div id="collapseDietas" class="accordion-collapse collapse" aria-labelledby="headingDietas"
+                            data-bs-parent="#guiaNutricional">
+                            <div class="accordion-body">
+                                <p>
+                                    Cada cierto tiempo aparece una <strong>dieta de moda</strong> que promete resultados
+                                    rápidos
+                                    sin esfuerzo. Es importante conocer algunos mitos comunes:
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Mito:</strong> “Mientras más restrictiva la dieta, mejor resultado”.<br>
+                                        <strong>Realidad:</strong> las dietas extremas son difíciles de mantener y
+                                        pueden afectar tu salud.
+                                    </li>
+                                    <li>
+                                        <strong>Mito:</strong> “Eliminar por completo los carbohidratos es la mejor
+                                        forma de bajar de peso”.<br>
+                                        <strong>Realidad:</strong> los carbohidratos son una fuente clave de energía. Lo
+                                        importante es
+                                        elegir los <em>adecuados</em> (integrales, frutas, verduras) y controlar las
+                                        porciones.
+                                    </li>
+                                    <li>
+                                        <strong>Mito:</strong> “Tomar solo jugos o licuados es desintoxicarse”.<br>
+                                        <strong>Realidad:</strong> tu hígado y riñones ya se encargan de
+                                        “desintoxicarte”.
+                                        Una alimentación equilibrada es más útil que dietas líquidas extremas.
+                                    </li>
+                                    <li>
+                                        <strong>Mito:</strong> “Si le funcionó a alguien más, me va a funcionar
+                                        igual”.<br>
+                                        <strong>Realidad:</strong> cada cuerpo es diferente. Lo ideal es un plan
+                                        personalizado.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    <em>Recuerda:</em> antes de seguir una dieta de moda, es mejor consultar a un
+                                    profesional de la salud.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="accordion-item border-success mb-3 rounded-4 overflow-hidden">
+                        <h2 class="accordion-header" id="headingMacros">
+                            <button class="accordion-button collapsed fw-semibold text-success" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseMacros" aria-expanded="false"
+                                aria-controls="collapseMacros">
+                                🍽️ Guía sobre macronutrientes y su función
+                            </button>
+                        </h2>
+                        <div id="collapseMacros" class="accordion-collapse collapse" aria-labelledby="headingMacros"
+                            data-bs-parent="#guiaNutricional">
+                            <div class="accordion-body">
+                                <p>
+                                    Los <strong>macronutrientes</strong> son los nutrientes que tu cuerpo necesita en
+                                    mayor cantidad:
+                                    <strong>proteínas, carbohidratos y grasas</strong>.
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Proteínas:</strong> ayudan a construir y reparar tejidos (músculos,
+                                        piel, órganos).
+                                        Fuentes: pollo, pescado, huevo, leguminosas, lácteos.
+                                    </li>
+                                    <li>
+                                        <strong>Carbohidratos:</strong> principal fuente de energía. Elige
+                                        preferentemente integrales:
+                                        avena, tortilla de maíz, pan integral, frutas, verduras.
+                                    </li>
+                                    <li>
+                                        <strong>Grasas saludables:</strong> necesarias para hormonas, cerebro y
+                                        absorción de vitaminas.
+                                        Fuentes: aguacate, nueces, aceite de oliva, semillas.
+                                    </li>
+                                </ul>
+                                <p>
+                                    La clave no es eliminar ningún macronutriente, sino encontrar un <strong>equilibrio
+                                        adecuado</strong>
+                                    según tu objetivo: mantener peso, perder grasa o ganar masa muscular.
+                                </p>
+                                <p class="mb-0">
+                                    <em>En NutriApp:</em> nuestra calculadora de macronutrientes puede ayudarte a
+                                    distribuirlos según tus calorías diarias.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="accordion-item border-success mb-3 rounded-4 overflow-hidden">
+                        <h2 class="accordion-header" id="headingHidratacion">
+                            <button class="accordion-button collapsed fw-semibold text-success" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseHidratacion" aria-expanded="false"
+                                aria-controls="collapseHidratacion">
+                                💧 La importancia de la hidratación, la fibra y otros hábitos
+                            </button>
+                        </h2>
+                        <div id="collapseHidratacion" class="accordion-collapse collapse"
+                            aria-labelledby="headingHidratacion" data-bs-parent="#guiaNutricional">
+                            <div class="accordion-body">
+                                <p>
+                                    No todo es contar calorías. Hay elementos clave que muchas veces se olvidan:
+                                    <strong>hidratación, fibra y calidad general de la dieta</strong>.
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Hidratación:</strong> tomar suficiente agua ayuda a la digestión, regula
+                                        la temperatura
+                                        corporal y mejora tu rendimiento físico y mental.
+                                    </li>
+                                    <li>
+                                        <strong>Fibra:</strong> se encuentra en frutas, verduras, cereales integrales y
+                                        leguminosas.
+                                        Mejora el tránsito intestinal, ayuda a controlar el azúcar en sangre y aporta
+                                        saciedad.
+                                    </li>
+                                    <li>
+                                        <strong>Color en el plato:</strong> entre más colores naturales (frutas y
+                                        verduras), mayor variedad
+                                        de vitaminas, minerales y antioxidantes.
+                                    </li>
+                                    <li>
+                                        <strong>Hábitos:</strong> comer despacio, evitar el exceso de ultraprocesados y
+                                        respetar horarios
+                                        ayuda más que cualquier “producto milagro”.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    Pequeños cambios constantes en tus hábitos valen más que una dieta perfecta que solo
+                                    dura una semana.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

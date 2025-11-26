@@ -1,7 +1,7 @@
 from flask import Flask, render_template,redirect,request,url_for,flash,session
 import requests
-from flask_mysqldb import Mysql
-from werkzeug.security import generate_password_hash
+from flask_mysqldb import MySQL
+from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
 app = Flask(__name__)
@@ -14,6 +14,18 @@ USUARIOS_REGISTRADOS ={
     }    
 }
 
+## CONFIGURACION MYSQL
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD']=''
+app.config['MYSQL_DB']='usuarios_db'
+
+mysql = MySQL(app)  
+
+@app.route('/educacion', methods=['GET', 'POST'])
+def educacion():
+    return render_template('educacion.html', )
+
 @app.route('/analizador', methods=['GET', 'POST'])
 def analizador():
     
@@ -25,9 +37,7 @@ def inicio():
     return render_template('inicio.html')
 
 
-@app.route('/consejos')
-def consejos():
-    return render_template('consejos.html')
+
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -51,35 +61,6 @@ def index():
 
 
 #Las sieguentes rutas tiene metodo POST y GET 
-@app.route("/validalogin", methods=['GET', 'POST'])
-def validalogin():
-    if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '')
-
-        if not email or not password:
-            flash('Por favor ingrese su correo y contraseña.', 'danger')
-            return render_template('sesion.html')
-
-        usuario = USUARIOS_REGISTRADOS.get(email)
-        if not usuario:
-            flash('Usuario no encontrado.', 'danger')
-            return render_template('sesion.html')
-
-        if password != usuario['password']:
-            flash('Contraseña incorrecta.', 'danger')
-            return render_template('sesion.html')
-
-        # 🔴 AQUÍ ES LO IMPORTANTE:
-        session['usuario'] = {
-            'nombre': usuario['nombre'],
-            'email': email
-        }
-        flash(f'Bienvenido {usuario["nombre"]}!', 'success')
-        return redirect(url_for('inicio'))
-
-    return render_template('sesion.html')
-
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -101,6 +82,8 @@ def registro():
         goal_other = request.form.get('goal_other', '').strip()
 
         errores = []
+
+        # --- Validaciones básicas ---
         if not nombre or not apellidos or not email:
             errores.append("Nombre, apellidos y correo son obligatorios.")
         if '@' not in email:
@@ -110,18 +93,23 @@ def registro():
         if password != confirm_password:
             errores.append("Las contraseñas no coinciden.")
 
+        # Para guardar en BD (None si vienen vacíos)
+        edad_db = None
+        altura_db = None
+        peso_db = None
+
         try:
             if edad:
-                edad_i = int(edad)
-                if edad_i < 18 or edad_i > 100:
+                edad_db = int(edad)
+                if edad_db < 18 or edad_db > 100:
                     errores.append("La edad debe estar entre 18 y 100.")
             if altura_cm:
-                alt_i = int(altura_cm)
-                if alt_i < 50 or alt_i > 250:
+                altura_db = int(altura_cm)
+                if altura_db < 50 or altura_db > 250:
                     errores.append("La altura debe estar entre 50 y 250 cm.")
             if peso_kg:
-                peso_f = float(peso_kg)
-                if peso_f < 20 or peso_f > 400:
+                peso_db = float(peso_kg)
+                if peso_db < 20 or peso_db > 400:
                     errores.append("El peso debe estar entre 20 y 400 kg.")
         except ValueError:
             errores.append("Verifica que edad, altura y peso sean números válidos.")
@@ -131,23 +119,69 @@ def registro():
         if not objetivo:
             errores.append("Selecciona un objetivo nutricional.")
 
-       
+        # Si hay errores → regresamos al form
         if errores:
             for e in errores:
                 flash(e, 'danger')
             return render_template('registro.html'), 400 
 
-        
+        # --- Revisar si el correo ya existe ---
+        usuario_existente = obtener_usuario_por_email(email)
+        if usuario_existente:
+            flash("Ese correo ya está registrado. Intenta con otro.", "danger")
+            return render_template('registro.html'), 400
+
+        # --- Guardar en MySQL ---
+        try:
+            cur = mysql.connection.cursor()
+            password_hash = generate_password_hash(password)
+
+            sql = """
+                INSERT INTO usuarios (
+                    nombre, apellidos, email, password,
+                    edad, genero, altura_cm, peso_kg,
+                    actividad, objetivo, goal_other
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cur.execute(sql, (
+                nombre,
+                apellidos,
+                email,
+                password_hash,
+                edad_db,
+                genero or None,
+                altura_db,
+                peso_db,
+                actividad or None,
+                objetivo or None,
+                goal_other or None
+            ))
+            mysql.connection.commit()
+            nuevo_id = cur.lastrowid
+            cur.close()
+        except Exception as e:
+            print("Error al insertar usuario:", e)
+            flash("Ocurrió un error al registrar el usuario. Intenta de nuevo.", "danger")
+            return render_template('registro.html'), 500
+
+     
+        session['usuario_id'] = nuevo_id
+        session['usuario_nombre'] = nombre
+        session['usuario_email'] = email
+
         session['usuario'] = {
             'nombre': nombre, 'apellidos': apellidos, 'email': email,
             'edad': edad, 'genero': genero, 'altura_cm': altura_cm, 'peso_kg': peso_kg,
             'actividad': actividad, 'objetivo': objetivo,
             'goals': goals_sel, 'goal_other': goal_other
         }
+
         flash("Registro exitoso 🎉 Ahora completa tu perfil.", "success")
         return redirect(url_for('perfil')) 
 
     return render_template('registro.html')
+
 
 @app.route('/imc', methods=['GET', 'POST'])
 def imc():
@@ -437,21 +471,72 @@ def calculadora():
 
     return render_template('indexforcalculadora.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    # Si ya está logueado → lo mandamos al dashboard
+    if 'usuario_id' in session:
+        return redirect(url_for('dashboard'))
 
-## CONFIGURACION MYSQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASWORD']=''
-app.config['MYSQL_DB']='usuarios_db'
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
 
-mysql = MySQL(app)
+        if not email or not password:
+            flash('Por favor ingrese email y contraseña', 'danger')
+            return render_template('sesion.html')
 
-def crear_tabla():
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.execute('''
-                       )''')mysql.connection.commit()
-    except Exception as e: 
+        # Obtener usuario desde MySQL (TUPLA)
+        usuario = obtener_usuario_por_email(email)
+
+        if usuario:
+            # usuario = (id, nombre, email, password)
+            if check_password_hash(usuario[3], password):
+                # Iniciar sesión
+                session['usuario_id'] = usuario[0]
+                session['usuario_nombre'] = usuario[1]
+                session['usuario_email'] = usuario[2]
+
+                flash(f'Bienvenido {usuario[1]}!', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Contraseña incorrecta', 'danger')
+        else:
+            flash('El correo no está registrado', 'danger')
+
+    return render_template('sesion.html')
+
+
+def obtener_usuario_por_email(email):
+    cur = mysql.connection.cursor()
+    consulta = """
+        SELECT id, nombre, email, password
+        FROM usuarios
+        WHERE email = %s
+    """
+    cur.execute(consulta, (email,))  
+    usuario = cur.fetchone()          
+    cur.close()
+    return usuario
+
+@app.route('/dashboard')
+def dashboard():
+    if 'usuario_id' not in session:
+        flash('Debes iniciar sesión primero', 'warning')
+        return redirect(url_for('login'))
+    return render_template('index.html')   
+
+
+def obtener_usuario_por_email(email):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT id, nombre, email, password
+        FROM usuarios
+        WHERE email = %s
+    """, (email,))
+    usuario = cur.fetchone()
+    cur.close()
+    return usuario
+
 
 if __name__ == '__main__':
     app.run(debug=True)
