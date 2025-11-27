@@ -13,31 +13,31 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('inicio') }}">NutriApp</a>
+            <a class="navbar-brand" href="{{ url_for('inicio') }}" style="color:black">NutriApp</a>
 
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
 
                     {% if session.get('usuario') %}
 
-                    <li class="nav-item">
+                   
+
+                     <li class="nav-item">
                         <span class="navbar-text me-3">
                             Hola, {{ session['usuario']['nombre'] }} 👋
                         </span>
                     </li>
-
-
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                        <a class="nav-link" href="{{ url_for('logout') }}" style="color:black">Cerrar sesión</a>
                     </li>
 
                     {% else %}
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('registro') }}">Registrarse</a>
+                        <a class="nav-link" href="{{ url_for('registro') }}"style="color:black">Registrarse</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">Iniciar sesión</a>
+                    <li class="nav-item" >
+                        <a class="nav-link" href="{{ url_for('login') }}"style="color:black">Iniciar sesión</a>
                     </li>
                     {% endif %}
 

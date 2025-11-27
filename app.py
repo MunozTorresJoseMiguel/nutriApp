@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template,redirect,request,url_for,flash,session
 import requests
 from flask_mysqldb import MySQL
@@ -18,7 +19,6 @@ USUARIOS_REGISTRADOS ={
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD']=''
-app.config['MYSQL_DB']='usuarios_db'
 
 mysql = MySQL(app)  
 
@@ -45,6 +45,9 @@ def logout():
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio'))
 
+@app.route("/ejercicio")
+def ejercicio():
+    return render_template("ejercicio.html")
 
 @app.route("/sesion")
 def sesion():
@@ -83,7 +86,7 @@ def registro():
 
         errores = []
 
-        # --- Validaciones básicas ---
+     
         if not nombre or not apellidos or not email:
             errores.append("Nombre, apellidos y correo son obligatorios.")
         if '@' not in email:
@@ -93,7 +96,6 @@ def registro():
         if password != confirm_password:
             errores.append("Las contraseñas no coinciden.")
 
-        # Para guardar en BD (None si vienen vacíos)
         edad_db = None
         altura_db = None
         peso_db = None
@@ -119,19 +121,16 @@ def registro():
         if not objetivo:
             errores.append("Selecciona un objetivo nutricional.")
 
-        # Si hay errores → regresamos al form
         if errores:
             for e in errores:
                 flash(e, 'danger')
             return render_template('registro.html'), 400 
 
-        # --- Revisar si el correo ya existe ---
         usuario_existente = obtener_usuario_por_email(email)
         if usuario_existente:
             flash("Ese correo ya está registrado. Intenta con otro.", "danger")
             return render_template('registro.html'), 400
 
-        # --- Guardar en MySQL ---
         try:
             cur = mysql.connection.cursor()
             password_hash = generate_password_hash(password)
@@ -196,7 +195,7 @@ def imc():
             imc = peso / (altura ** 2)
             resultado = round(imc, 2)
 
-            # Clasificación del IMC
+            
             if imc < 18.5:
                 categoria = "Bajo peso"
             elif 18.5 <= imc < 24.9:
@@ -473,7 +472,6 @@ def calculadora():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # Si ya está logueado → lo mandamos al dashboard
     if 'usuario_id' in session:
         return redirect(url_for('dashboard'))
 
@@ -485,13 +483,10 @@ def login():
             flash('Por favor ingrese email y contraseña', 'danger')
             return render_template('sesion.html')
 
-        # Obtener usuario desde MySQL (TUPLA)
         usuario = obtener_usuario_por_email(email)
 
         if usuario:
-            # usuario = (id, nombre, email, password)
             if check_password_hash(usuario[3], password):
-                # Iniciar sesión
                 session['usuario_id'] = usuario[0]
                 session['usuario_nombre'] = usuario[1]
                 session['usuario_email'] = usuario[2]
