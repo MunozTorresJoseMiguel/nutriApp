@@ -1,61 +1,25 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Mi Calculadora{% endblock %}</title>
+{% block title %}Guía Nutricional — NutriApp{% endblock %}
 
+{% block content %}
+<nav class="navbar navbar-dark bg-dark bg-opacity-75">
+    <div class="container">
+        <a class="navbar-brand fw-semibold" href="#">
+            🧮 Mis Calculadoras
+        </a>
+        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('inicio') }}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('imc') }}">Índice de Masa Corporal</a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('tmb') }}">Tasa Metabólica Basal</a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('gct') }}">Gasto Calórico Total</a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('peso_ideal') }}">Peso Corporal
+                Ideal</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('macronutrientes') }}">Macronutrientes</a>
+        </li>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-
-<body class="min-vh-100"
-    style="background: url('{{ url_for('static', filename='img/paraCalculadora.jpeg') }}') center center / cover no-repeat fixed;">
-
-    <nav class="navbar navbar-dark bg-dark bg-opacity-75">
-        <div class="container">
-            <a class="navbar-brand fw-semibold" href="#">
-                🧮 Mis Calculadoras
-            </a>
-            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('imc') }}">Índice de Masa Corporal</a>
-            </li>
-            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('tmb') }}">Tasa Metabólica Basal </a>
-            </li>
-            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('gct') }}">Gasto Calórico Total</a>
-            </li>
-            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('peso_ideal') }}">Peso Corporal
-                    Ideal</a></li>
-            <li class="nav-item"><a class="nav-link text-white"
-                    href="{{ url_for('macronutrientes') }}">Macronutrientes</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('inicio') }}">Inicio</a></li>
-        </div>
-    </nav>
-
-
-    <main class="d-flex align-items-center justify-content-center min-vh-100">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-11 col-md-8 col-lg-5">
-
-
-
-
-
-                    {% block content %}
-
-                    {% endblock %}
-
-
-                </div>
-            </div>
-        </div>
-    </main>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-M9O9ZkWWDUFc1l1b9AqzWqQGq7qSdz+CA0nVddOZXS6AMDttuPAHyx+KYoUq40M"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+    </div>
+</nav>
+{% endblock %}

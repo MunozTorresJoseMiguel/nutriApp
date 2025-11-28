@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+
+        <div class="card shadow-sm border-0 rounded-4" style="background-color:#ffffffcc;">
+            <div class="card-body p-4">
+
+                <h4 class="text-success fw-bold mb-3">Perfil de usuario</h4>
+
+                <h6 class="text-muted mb-3">Datos básicos</h6>
+                <p class="mb-1"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+                <p class="mb-1"><strong>Apellidos:</strong> {{ usuario.apellidos }}</p>
+                <p class="mb-1"><strong>Correo:</strong> {{ usuario.email }}</p>
+                <p class="mb-1"><strong>Edad:</strong> {{ usuario.edad }}</p>
+                <p class="mb-1"><strong>Género:</strong> {{ usuario.genero }}</p>
+                <p class="mb-1"><strong>Altura:</strong> {{ usuario.altura_cm }} cm</p>
+                <p class="mb-1"><strong>Peso:</strong> {{ usuario.peso_kg }} kg</p>
+                <p class="mb-3"><strong>Objetivo:</strong> {{ usuario.objetivo }}</p>
+
+                <hr>
+
+                <h6 class="text-muted mb-3">Preferencias y hábitos</h6>
+
+                <p class="mb-1"><strong>Alergias:</strong>
+                    {% if perfil.alergias %}
+                    {{ perfil.alergias | join(', ') }}
+                    {% else %}
+                    No especificado
+                    {% endif %}
+                </p>
+
+                <p class="mb-1"><strong>Otras alergias:</strong>
+                    {{ perfil.alergia_otra or 'No especificado' }}
+                </p>
+
+                <p class="mb-1"><strong>Intolerancias:</strong>
+                    {% if perfil.intolerancias %}
+                    {{ perfil.intolerancias | join(', ') }}
+                    {% else %}
+                    No especificado
+                    {% endif %}
+                </p>
+
+                <p class="mb-1"><strong>Dietas:</strong>
+                    {% if perfil.dietas %}
+                    {{ perfil.dietas | join(', ') }}
+                    {% else %}
+                    No especificado
+                    {% endif %}
+                </p>
+
+                <p class="mb-1"><strong>Alimentos que no te gustan:</strong>
+                    {{ perfil.no_gustan or 'No especificado' }}
+                </p>
+
+                <p class="mb-1"><strong>Experiencia en cocina:</strong>
+                    {{ perfil.experiencia_cocina or 'No especificado' }}
+                </p>
+
+                <p class="mb-3"><strong>Equipo disponible:</strong>
+                    {{ perfil.equipo_disponible or 'No especificado' }}
+                </p>
+
+                <div class="text-end">
+                    <a href="{{ url_for('perfil') }}" class="btn btn-outline-success btn-sm">
+                        Editar preferencias
+                    </a>
+                    <a href="{{ url_for('inicio') }}" class="btn btn-success btn-sm">
+                        Volver al inicio
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

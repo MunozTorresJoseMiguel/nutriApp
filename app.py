@@ -63,6 +63,16 @@ def index():
 
 
 #Las sieguentes rutas tiene metodo POST y GET 
+
+@app.route('/ver_perfil')
+def ver_perfil():
+    if 'usuario_id' not in session:
+        flash('Debes iniciar sesión para ver tu perfil', 'warning')
+        return redirect(url_for('login'))
+    usuario = session.get('usuario', {})
+    perfil = session.get('perfil', {})
+    return render_template('ver_perfil.html', usuario=usuario, perfil=perfil)
+
 @app.route("/rutina")
 def rutina():
     rutina = {
@@ -315,28 +325,52 @@ def tmb():
 @app.route('/gct', methods=['GET', 'POST'])
 def gct():
     gct = None
+    info = None
+
     if request.method == 'POST':
-        
-        if all(k in request.form and request.form[k] for k in ['peso', 'altura', 'edad', 'sexo', 'actividad']):
-            peso = float(request.form['peso'])
-            altura = float(request.form['altura'])
-            edad = int(request.form['edad'])
-            sexo = request.form['sexo']
-            actividad = float(request.form['actividad'])
+        # Verificamos que todos los campos vengan llenos
+        campos = ['peso', 'altura', 'edad', 'sexo', 'actividad']
+        if all(k in request.form and request.form[k] for k in campos):
+            try:
+                peso = float(request.form['peso'])
+                altura = float(request.form['altura'])
+                edad = int(request.form['edad'])
+                sexo = request.form['sexo']
+                actividad = float(request.form['actividad'])
 
-            
-            tmb = (10 * peso) + (6.25 * altura) - (5 * edad)
-            if sexo == 'masculino':
-                tmb += 5
-            else:
-                tmb -= 161
+                # TMB con fórmula de Mifflin-St Jeor
+                tmb = (10 * peso) + (6.25 * altura) - (5 * edad)
+                if sexo == 'masculino':
+                    tmb += 5
+                else:
+                    tmb -= 161
 
-            
-            gct = round(tmb * actividad, 2)
+                # Gasto calórico total
+                gct = round(tmb * actividad, 2)
+
+                # Info para la tarjeta de explicación
+                info = {
+                    "titulo": "¿Qué es el Gasto Calórico Total (GCT)?",
+                    "descripcion": (
+                        "El Gasto Calórico Total es la cantidad aproximada de calorías que tu cuerpo "
+                        "necesita al día considerando tu metabolismo basal y tu nivel de actividad física. "
+                        "Si consumes más calorías de las que marca tu GCT, tiendes a subir de peso; si "
+                        "consumes menos, tiendes a bajarlo."
+                    ),
+                    "extra": (
+                        "Usa este valor como referencia para ajustar tus objetivos: perder grasa, "
+                        "mantener tu peso o ganar masa muscular, siempre acompañado de hábitos saludables."
+                    ),
+                    "imagen": "img/tasabasal.webp"  # cambia si tienes una imagen específica de GCT
+                }
+
+            except ValueError:
+                flash("Verifica que peso, altura y edad sean números válidos.", "danger")
         else:
-            gct = "Por favor completa todos los campos."
+            flash("Por favor completa todos los campos.", "warning")
 
-    return render_template('gct.html', gct=gct)
+    return render_template('gct.html', gct=gct, info=info)
+
 
 @app.route('/peso_ideal', methods=['GET', 'POST'])
 def peso_ideal():
@@ -479,16 +513,6 @@ def perfil():
 
 @app.route('/indexforcalculadora', methods=['GET', 'POST'])
 def calculadora():
-   
-    if 'usuario' not in session:
-        flash("Debes iniciar sesión para usar la calculadora 🤓", "warning")
-        return redirect(url_for('login'))
-
-    if request.method == 'POST':
-       
-        resultado = 0 
-        return render_template('indexforcalculadora.html', resultado=resultado)
-
     return render_template('indexforcalculadora.html')
 
 @app.route('/login', methods=['GET', 'POST'])
