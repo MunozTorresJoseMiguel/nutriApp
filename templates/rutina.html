@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Rutina de ejercicio{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+  <!-- ENCABEZADO -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="fw-bold">Rutina de ejercicio</h2>
+      <p class="text-muted">Tu plan para hoy 💪</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm border-0">
+
+        {% if rutina.imagen %}
+        <img src="static/img/pecho.gif" class="card-img-top" alt="Imagen rutina">
+        {% endif %}
+
+        <div class="card-body">
+
+          <h4 class="card-title fw-bold">{{ rutina.nombre }}</h4>
+
+          {% if rutina.nivel %}
+          <span class="badge bg-primary">{{ rutina.nivel }}</span>
+          {% endif %}
+
+          <hr>
+
+          {% if rutina.objetivo %}
+          <p><strong>Objetivo:</strong> {{ rutina.objetivo }}</p>
+          {% endif %}
+
+          {% if rutina.duracion %}
+          <p><strong>Duración:</strong> {{ rutina.duracion }}</p>
+          {% endif %}
+
+          {% if rutina.descripcion %}
+          <p class="text-muted">{{ rutina.descripcion }}</p>
+          {% endif %}
+
+          {% if rutina.ejercicios %}
+          <h5 class="mt-4">Ejercicios</h5>
+          <ul class="list-group mb-3">
+            {% for ejercicio in rutina.ejercicios %}
+              <li class="list-group-item">
+                {{ ejercicio }}
+              </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if rutina.calorias %}
+          <p class="text-muted text-end">
+            🔥 Quema aproximada: <strong>{{ rutina.calorias }} kcal</strong>
+          </p>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+<a href="{{ url_for('index') }}" class="btn btn-success mt-3">Inicio</a>
+
+
+</div>
+
+{% endblock %}

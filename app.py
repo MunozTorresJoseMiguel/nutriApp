@@ -19,7 +19,8 @@ USUARIOS_REGISTRADOS ={
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD']=''
-
+app.config['MYSQL_DB'] = 'usuarios_db'
+app.config['MYSQL_PORT'] = 3306
 mysql = MySQL(app)  
 
 @app.route('/educacion', methods=['GET', 'POST'])
@@ -45,9 +46,7 @@ def logout():
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('inicio'))
 
-@app.route("/ejercicio")
-def ejercicio():
-    return render_template("ejercicio.html")
+
 
 @app.route("/sesion")
 def sesion():
@@ -64,6 +63,28 @@ def index():
 
 
 #Las sieguentes rutas tiene metodo POST y GET 
+@app.route("/rutina")
+def rutina():
+    rutina = {
+        "nombre": "Full Body Básico",
+        "nivel": "Principiante",
+        "objetivo": "Tonificar y activar el cuerpo",
+        "duracion": "30 minutos",
+        "descripcion": "Rutina perfecta para comenzar. No necesitas equipo.",
+        "ejercicios": [
+            "Sentadillas – 3x12",
+            "Lagartijas – 3x8",
+            "Plancha – 3x30s",
+            "Saltos de tijera – 3x20",
+            "Crunches – 3x15"
+        ],
+        "calorias": 280,
+        "imagen": "/static/img/rutina.jpg"
+    }
+
+    return render_template("rutina.html", rutina=rutina)
+
+
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
