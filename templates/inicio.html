@@ -13,7 +13,7 @@
 
     <div class="col-12 col-sm-6 col-md-4">
 
-        {% if session.get('usuario') %}
+
 
         <a href="{{ url_for('calculadora') }}" class="text-decoration-none">
             <div class="card text-white text-center" style="background-color:#62883A; border:none;">
@@ -23,21 +23,6 @@
                 </div>
             </div>
         </a>
-
-        {% else %}
-
-        <div class="card text-white text-center opacity-50" style="background-color:#62883A; border:none;">
-            <div class="card-body py-5">
-                <h4 class="fw-bold">Calculadoras</h4>
-                <p>Inicia sesión para usar esta herramienta</p>
-
-                <a href="{{ url_for('login') }}" class="btn btn-light mt-3">
-                    Iniciar sesión
-                </a>
-            </div>
-        </div>
-        {% endif %}
-
     </div>
 
 

@@ -66,7 +66,7 @@ def index():
 
 @app.route('/ver_perfil')
 def ver_perfil():
-    if 'usuario_id' not in session:
+    if 'id' not in session:
         flash('Debes iniciar sesión para ver tu perfil', 'warning')
         return redirect(url_for('login'))
     usuario = session.get('usuario', {})
@@ -196,7 +196,7 @@ def registro():
             return render_template('registro.html'), 500
 
      
-        session['usuario_id'] = nuevo_id
+        session['id'] = nuevo_id
         session['usuario_nombre'] = nombre
         session['usuario_email'] = email
 
@@ -513,11 +513,12 @@ def perfil():
 
 @app.route('/indexforcalculadora', methods=['GET', 'POST'])
 def calculadora():
+
     return render_template('indexforcalculadora.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'usuario_id' in session:
+    if 'id' in session:
         return redirect(url_for('dashboard'))
 
     if request.method == 'POST':
@@ -532,7 +533,7 @@ def login():
 
         if usuario:
             if check_password_hash(usuario[3], password):
-                session['usuario_id'] = usuario[0]
+                session['id'] = usuario[0]
                 session['usuario_nombre'] = usuario[1]
                 session['usuario_email'] = usuario[2]
 
@@ -546,21 +547,10 @@ def login():
     return render_template('sesion.html')
 
 
-def obtener_usuario_por_email(email):
-    cur = mysql.connection.cursor()
-    consulta = """
-        SELECT id, nombre, email, password
-        FROM usuarios
-        WHERE email = %s
-    """
-    cur.execute(consulta, (email,))  
-    usuario = cur.fetchone()          
-    cur.close()
-    return usuario
 
 @app.route('/dashboard')
 def dashboard():
-    if 'usuario_id' not in session:
+    if 'id' not in session:
         flash('Debes iniciar sesión primero', 'warning')
         return redirect(url_for('login'))
     return render_template('index.html')   
