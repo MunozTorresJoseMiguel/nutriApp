@@ -18,11 +18,11 @@
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav flex-column align-items-end">
 
-                    {% if session.get('usuario') %}
+                    {% if session.get('id') %}
 
                     <li class="nav-item">
                         <span class="navbar-text mb-1">
-                            Hola, {{ session['usuario']['nombre'] }} 👋
+                            Hola, {{ session.get('usuario_nombre', 'Usuario') }} 👋
                         </span>
                     </li>
                     <li class="nav-item">
@@ -44,6 +44,7 @@
                     </li>
 
                     {% endif %}
+
 
                 </ul>
             </div>

@@ -1,55 +1,118 @@
-{% extends 'basecalculadora.html' %}
-{% block title %}Analizador de Recetas{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Analizador de recetas — NutriApp{% endblock %}
+
 {% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-10">
+    <div class="card shadow-sm rounded-4 border-success">
+      <div class="card-body p-4">
+        <h4 class="text-success">Analizador de recetas</h4>
+        <p class="text-muted mb-3">
+          Escribe tu receta, un ingrediente por línea.
+          Si quieres, indica los gramos al inicio de cada línea.
+        </p>
 
-<section class="bg-cover hero-min d-flex align-items-center py-4 py-md-0"
-  style="background:url('../static/img/avocado.jpg') center/cover no-repeat;">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8 col-xxl-7">
-        <div class="card shadow-sm rounded-4 border-success bg-white bg-opacity-85">
-          <div class="card-body p-4 p-md-5">
+        <div class="alert alert-info small">
+          Ejemplos:<br>
+          <code>100 pechuga de pollo</code><br>
+          <code>80 arroz blanco cocido</code><br>
+          <code>30 queso rallado</code>
+        </div>
 
-            <h5 class="text-success mb-0">Analizador de Recetas o Platos</h5>
-            <small class="text-muted">Análisis nutricional básico de tu receta 🍲</small>
-            <hr class="my-4">
+        <form method="POST" class="mb-4">
+          <div class="mb-3">
+            <label for="receta" class="form-label">Ingredientes de la receta</label>
+            <textarea class="form-control" id="receta" name="receta" rows="6" placeholder="Ejemplo:
+100 pechuga de pollo
+80 arroz blanco cocido
+30 queso rallado">{{ receta_texto or '' }}</textarea>
+          </div>
+          <div class="d-grid d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-success">
+              Analizar receta
+            </button>
+          </div>
+        </form>
 
-            <form method="POST">
-              <div class="mb-3">
-                <label for="receta" class="form-label">Escribe los ingredientes (separados por comas)</label>
-                <textarea class="form-control" id="receta" name="receta" rows="3"
-                  placeholder="Ejemplo: pollo, arroz, aguacate" required></textarea>
-              </div>
-
-              <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-success btn-lg">Analizar Receta</button>
-              </div>
-            </form>
-
-            {% if resultado %}
-            <hr class="my-4">
-            <div class="alert alert-light border-success rounded-4 text-center">
-              {% if resultado is string %}
-                <p class="text-danger mb-0">{{ resultado }}</p>
+        {% if detalles %}
+        <h5 class="mt-4">Resultados por ingrediente</h5>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Ingrediente</th>
+                <th>Descripción (USDA)</th>
+                <th class="text-end">Cant. (g)</th>
+                <th class="text-end">Calorías</th>
+                <th class="text-end">Proteínas (g)</th>
+                <th class="text-end">Carbs (g)</th>
+                <th class="text-end">Grasas (g)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in detalles %}
+              {% if item.encontrado %}
+              <tr>
+                <td>{{ item.ingrediente }}</td>
+                <td>{{ item.nombre_mostrado }}</td>
+                <td class="text-end">{{ item.gramos }}</td>
+                <td class="text-end">{{ item.calorias }}</td>
+                <td class="text-end">{{ item.proteina }}</td>
+                <td class="text-end">{{ item.carbohidratos }}</td>
+                <td class="text-end">{{ item.grasas }}</td>
+              </tr>
               {% else %}
-                <h5 class="text-success">Resultados para: {{ resultado.ingredientes }}</h5>
-                <ul class="list-unstyled mb-2">
-                  <li><strong>Calorías:</strong> {{ resultado.calorias }} kcal</li>
-                  <li><strong>Proteínas:</strong> {{ resultado.proteinas }} g</li>
-                  <li><strong>Carbohidratos:</strong> {{ resultado.carbohidratos }} g</li>
-                  <li><strong>Grasas:</strong> {{ resultado.grasas }} g</li>
-                </ul>
-                <p class="text-muted small mb-0">Valores aproximados para 100 g de cada ingrediente.</p>
+              <tr class="table-warning">
+                <td>{{ item.ingrediente }}</td>
+                <td colspan="6">No se encontró en la base de datos de USDA.</td>
+              </tr>
               {% endif %}
-            </div>
-            {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
 
+        <h5 class="mt-4">Totales aproximados de la receta</h5>
+        <div class="row g-3">
+          <div class="col-6 col-md-3">
+            <div class="card border-0 bg-light">
+              <div class="card-body text-center">
+                <small class="text-muted d-block">Calorías</small>
+                <span class="fw-bold">{{ totales.calorias }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 bg-light">
+              <div class="card-body text-center">
+                <small class="text-muted d-block">Proteínas (g)</small>
+                <span class="fw-bold">{{ totales.proteina }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 bg-light">
+              <div class="card-body text-center">
+                <small class="text-muted d-block">Carbs (g)</small>
+                <span class="fw-bold">{{ totales.carbohidratos }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 bg-light">
+              <div class="card-body text-center">
+                <small class="text-muted d-block">Grasas (g)</small>
+                <span class="fw-bold">{{ totales.grasas }}</span>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="text-center text-white-50 small mt-3">NutriApp 🍏 - Analiza tus comidas fácilmente</p>
+
+        {% endif %}
+
       </div>
     </div>
   </div>
-</section>
-
+</div>
 {% endblock %}
