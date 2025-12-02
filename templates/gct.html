@@ -51,6 +51,7 @@
               <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-success btn-lg">Calcular GCT</button>
               </div>
+              <a href="{{ url_for('index') }}" class="btn btn-success mt-3">Inicio</a>
             </form>
 
             {% if gct %}
@@ -74,7 +75,7 @@
 <div class="container mt-5 mb-5">
   <div class="row g-4 align-items-center">
 
-    <!-- Imagen -->
+    
     <div class="col-12 col-md-4 d-flex justify-content-center">
       {% if info.imagen %}
       <img src="{{ url_for('static', filename='img/gtcimg.webp') }}" alt="{{ info.titulo }}"
@@ -82,7 +83,7 @@
       {% endif %}
     </div>
 
-    <!-- Información -->
+   
     <div class="col-12 col-md-8">
       <div class="card border-0 shadow-sm p-4 rounded-4" style="background:white;">
         <div class="card-body">
