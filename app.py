@@ -430,9 +430,7 @@ def tmb():
 def gct():
     gct = None
     info = None
-    if 'id' not in session:
-        flash('Debes iniciar sesión primero', 'warning')
-        return redirect(url_for('login'))
+   
     if request.method == 'POST':
         # Verificamos que todos los campos vengan llenos
         campos = ['peso', 'altura', 'edad', 'sexo', 'actividad']
