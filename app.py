@@ -184,6 +184,9 @@ def ver_perfil():
 
 @app.route("/rutina")
 def rutina():
+    if 'id' not in session:
+        flash('Debes iniciar sesión primero', 'warning')
+        return redirect(url_for('login'))
     rutina = {
         "nombre": "Full Body Básico",
         "nivel": "Principiante",
